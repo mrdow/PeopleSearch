@@ -1,0 +1,6 @@
+{
+  "ConnectionStrings": {
+    "PeopleSearchConnectionString": "Server=(localdb)\\mssqllocaldb;Database=PeopleSearch;Trusted_Connection=True;"
+  },
+  "Title":  "People Search"
+}
