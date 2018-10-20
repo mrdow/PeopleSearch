@@ -50,7 +50,9 @@ namespace PeopleSearch
         {
             app.UseDeveloperExceptionPage();
 
-            app.UseMvcWithDefaultRoute();
+            app.UseMvc();
+            app.UseDefaultFiles();
+            app.UseStaticFiles();
         }
     }
 }

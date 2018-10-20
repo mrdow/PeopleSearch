@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "PeopleSearchNg": {
+    "PeopleSearch": {
       "root": "",
       "sourceRoot": "src",
       "projectType": "application",
@@ -17,7 +17,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/PeopleSearchNg",
+            "outputPath": "wwwroot",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
@@ -61,18 +61,18 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "PeopleSearchNg:build"
+            "browserTarget": "PeopleSearch:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "PeopleSearchNg:build:production"
+              "browserTarget": "PeopleSearch:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "PeopleSearchNg:build"
+            "browserTarget": "PeopleSearch:build"
           }
         },
         "test": {
@@ -106,7 +106,7 @@
         }
       }
     },
-    "PeopleSearchNg-e2e": {
+    "PeopleSearch-e2e": {
       "root": "e2e/",
       "projectType": "application",
       "prefix": "",
@@ -115,11 +115,11 @@
           "builder": "@angular-devkit/build-angular:protractor",
           "options": {
             "protractorConfig": "e2e/protractor.conf.js",
-            "devServerTarget": "PeopleSearchNg:serve"
+            "devServerTarget": "PeopleSearch:serve"
           },
           "configurations": {
             "production": {
-              "devServerTarget": "PeopleSearchNg:serve:production"
+              "devServerTarget": "PeopleSearch:serve:production"
             }
           }
         },
@@ -135,5 +135,5 @@
       }
     }
   },
-  "defaultProject": "PeopleSearchNg"
+  "defaultProject": "PeopleSearch"
 }
