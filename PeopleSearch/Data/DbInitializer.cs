@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Hosting;
 using PeopleSearch.Models;
 using System;
 using System.IO;
@@ -68,6 +68,18 @@ namespace PeopleSearch.Data
                         new Interest { Name = "Martial arts" },
                         new Interest { Name = "Football" }
                     }
+                },
+                new Person
+                {
+                    FirstName = "Test",
+                    LastName = "Person",
+                    BirthDate = DateTime.Now
+                },
+                new Person
+                {
+                    FirstName = "Someone",
+                    LastName = "Else",
+                    BirthDate = DateTime.Now.AddYears(-30)
                 }
             };
             

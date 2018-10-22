@@ -12,11 +12,12 @@ namespace PeopleSearch.Test.Helpers
         {
             if (expected == null)
             {
-                Assert.IsNull(actual);
+                Assert.IsNull(actual, "Expected Person list to be null");
                 return;
             }
 
-            Assert.AreEqual(expected.Count, actual.Count);
+            Assert.IsNotNull(actual, "Expected Person list to not be null");
+            Assert.AreEqual(expected.Count, actual.Count, $"Expected Person list to have {expected.Count} items");
             for (int i = 0; i < expected.Count; i++)
             {
                 AssertPeopleAreEqual(expected[i], actual[i]);
@@ -25,44 +26,52 @@ namespace PeopleSearch.Test.Helpers
 
         public static void AssertPeopleAreEqual(Person expected, Person actual)
         {
-            if (expected != null)
+            if (expected == null)
             {
-                Assert.IsNotNull(actual);
-                Assert.AreEqual(expected.FirstName, actual.FirstName);
-                Assert.AreEqual(expected.LastName, actual.LastName);
-                Assert.AreEqual(expected.BirthDate, actual.BirthDate);
-                Assert.AreEqual(expected.DeathDate, actual.DeathDate);
-                Assert.AreEqual(expected.Image, actual.Image);
-
-                AssertAddressesAreEqual(expected.Address, actual.Address);
-                AssertInterestListsAreEqual(expected.Interests, actual.Interests);
+                Assert.IsNull(actual, "Expected Person to be null");
+                return;
             }
+            Assert.IsNotNull(actual, "Expected Person to not be null");
+            Assert.AreEqual(expected.FirstName, actual.FirstName, $"Expected {nameof(expected.FirstName)} to be {expected.FirstName}");
+            Assert.AreEqual(expected.LastName, actual.LastName, $"Expected {nameof(expected.LastName)} to be {expected.LastName}");
+            Assert.AreEqual(expected.BirthDate, actual.BirthDate, $"Expected {nameof(expected.BirthDate)} to be {expected.BirthDate}");
+            Assert.AreEqual(expected.DeathDate, actual.DeathDate, $"Expected {nameof(expected.DeathDate)} to be {expected.DeathDate}");
+            Assert.AreEqual(expected.Image, actual.Image, $"Expected {nameof(expected.Image)} to be {expected.Image}");
+
+            AssertAddressesAreEqual(expected.Address, actual.Address);
+            AssertInterestListsAreEqual(expected.Interests, actual.Interests);
         }
 
         private static void AssertAddressesAreEqual(Address expected, Address actual)
         {
-            if (expected != null)
+            if (expected == null)
             {
-                Assert.IsNotNull(actual);
-                Assert.AreEqual(expected.Address1, actual.Address1);
-                Assert.AreEqual(expected.Address2, actual.Address2);
-                Assert.AreEqual(expected.City, actual.City);
-                Assert.AreEqual(expected.State, actual.State);
-                Assert.AreEqual(expected.Zip, actual.Zip);
+                Assert.IsNull(actual, "Expected Address to be null");
+                return;
             }
+
+            Assert.IsNotNull(actual, "Expected Address not to be null");
+            Assert.AreEqual(expected.Address1, actual.Address1, $"Expected {nameof(expected.Address1)} to be {expected.Address1}");
+            Assert.AreEqual(expected.Address2, actual.Address2, $"Expected {nameof(expected.Address2)} to be {expected.Address2}");
+            Assert.AreEqual(expected.City, actual.City, $"Expected {nameof(expected.City)} to be {expected.City}");
+            Assert.AreEqual(expected.State, actual.State, $"Expected {nameof(expected.State)} to be {expected.State}");
+            Assert.AreEqual(expected.Zip, actual.Zip, $"Expected {nameof(expected.Zip)} to be {expected.Zip}");
         }
 
         private static void AssertInterestListsAreEqual(IList<Interest> expected, IList<Interest> actual)
         {
-            if (expected != null)
+            if (expected == null)
             {
-                Assert.IsNotNull(actual);
-                Assert.AreEqual(expected.Count, actual.Count);
+                Assert.IsNull(actual, "Expected Interest list to be null");
+                return;
+            }
 
-                for (int i = 0; i < expected.Count; i++)
-                {
-                    Assert.AreEqual(expected[i].Name, actual[i].Name);
-                }
+            Assert.IsNotNull(actual, "Expected Interest list to not be null");
+            Assert.AreEqual(expected.Count, actual.Count, $"Expected Interest list to have {expected.Count} items");
+
+            for (int i = 0; i < expected.Count; i++)
+            {
+                Assert.AreEqual(expected[i].Name, actual[i].Name, $"Expected {nameof(Interest.Name)} to be {expected[i].Name}");
             }
         }
 

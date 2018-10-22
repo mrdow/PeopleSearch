@@ -44,7 +44,7 @@ namespace PeopleSearch.Models
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:MM-dd-yyy}", ApplyFormatInEditMode = true)]
         public DateTime BirthDate { get; set; }
-        
+
         /// <summary>
         /// The person's death date, if applicable. The time is not persisted. This field in optional.
         /// </summary>
@@ -69,8 +69,5 @@ namespace PeopleSearch.Models
         /// </summary>
         [DataType(DataType.Upload)]
         public byte[] Image { get; set; }
-
-        [NotMapped]
-        public string ImageAsBase64 => Convert.ToBase64String(Image);
     }
 }

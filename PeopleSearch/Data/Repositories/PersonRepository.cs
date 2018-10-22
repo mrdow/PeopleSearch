@@ -52,25 +52,76 @@ namespace PeopleSearch.Data.Repositories
 
             return await _context
                 .People
+                .Where(p => p.FirstName.Contains(searchString, StringComparison.OrdinalIgnoreCase)
+                        || p.LastName.Contains(searchString, StringComparison.OrdinalIgnoreCase))
                 .Include(person => person.Address)
                 .Include(person => person.Interests)
                 .AsNoTracking()
-                .Where(p => p.FirstName.Contains(searchString, StringComparison.OrdinalIgnoreCase)
-                        || p.LastName.Contains(searchString, StringComparison.OrdinalIgnoreCase)).ToListAsync();
+                .ToListAsync();
         }
 
         /// <summary>
-        /// Adds the provided Person object to the repository.
+        /// Gets the Person matching the provided id.
         /// </summary>
-        /// <param name="person">The Person object to add to the repository.</param>
-        /// <returns>The Task to be awaited.</returns>
-        public async Task AddPersonAsync(Person person)
+        /// <param name="id">The id of the person to retrieve.</param>
+        /// <returns>The Person identified by the id or null.</returns>
+        public async Task<Person> GetByIdAsync(long id)
         {
-            if (person != null)
+            return await _context
+                .People
+                .Include(person => person.Address)
+                .Include(person => person.Interests)
+                .AsNoTracking()
+                .SingleOrDefaultAsync(p => p.Id == id);
+        }
+
+        /// <summary>
+        /// Adds the provided Person to the repository.
+        /// </summary>
+        /// <param name="person">The Person to add to the repository.</param>
+        /// <returns>The Person that was added or null.</returns>
+        public async Task<Person> AddPersonAsync(Person person)
+        {
+            if (person != null && person.Id == 0)
             {
                 _context.People.Add(person);
                 await _context.SaveChangesAsync();
             }
+
+            return person;
+        }
+        
+        /// <summary>
+        /// Adds or updates the provided person in the repository.
+        /// </summary>
+        /// <param name="person">The Person to add or update.</param>
+        /// <returns>The updated Person.</returns>
+        public async Task<Person> AddOrUpdatePerson(Person person)
+        {
+            if (person != null)
+            {
+                _context.Entry(person).State = person.Id == 0 ? EntityState.Added : EntityState.Modified;
+                await _context.SaveChangesAsync();
+            }
+
+            return person;
+        }
+        
+        /// <summary>
+        /// Deletes the Person identified by the provided id.
+        /// </summary>
+        /// <param name="id">The id of the Person to delete.</param>
+        /// <returns>The Task to be awaited.</returns>
+        public async Task DeletePersonAsync(long id)
+        {
+            Person person = new Person
+            {
+                Id = id
+            };
+
+            _context.Attach(person);
+            _context.People.Remove(person);
+            await _context.SaveChangesAsync();
         }
     }
 }

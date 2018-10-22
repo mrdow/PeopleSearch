@@ -7,6 +7,8 @@ using PeopleSearch.Data;
 using PeopleSearch.Data.Repositories;
 using PeopleSearch.Data.Repositories.Interfaces;
 using PeopleSearch.Filters;
+using PeopleSearch.Utils;
+using PeopleSearch.Utils.Interfaces;
 
 namespace PeopleSearch
 {
@@ -32,6 +34,11 @@ namespace PeopleSearch
             services.AddMvc(options =>
             {
                 options.Filters.Add(new ValidateModelFilter());
+
+                if (_configuration.GetValue<bool>("LatencySimulation.Enabled"))
+                {
+                    options.Filters.Add(typeof(LatencySimulationFilter));
+                }
             });
 
             services.AddTransient<DbInitializer>();
@@ -50,9 +57,12 @@ namespace PeopleSearch
         {
             app.UseDeveloperExceptionPage();
 
-            app.UseMvc();
-            app.UseDefaultFiles();
-            app.UseStaticFiles();
+            app.UseFileServer();
+            app.UseMvc(routes =>
+            {
+                routes.MapRoute("default", "api/{controller}/{id?}");
+                routes.MapRoute("catchAll", "{*url}", defaults: new { controller = "Default", action = "Index" });
+            });
         }
     }
 }

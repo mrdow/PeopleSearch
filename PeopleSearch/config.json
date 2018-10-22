@@ -2,5 +2,10 @@
   "ConnectionStrings": {
     "PeopleSearchConnectionString": "Server=(localdb)\\mssqllocaldb;Database=PeopleSearch;Trusted_Connection=True;"
   },
-  "Title":  "People Search"
+  "Title": "People Search",
+  "LatencySimulation": {
+    "Enabled": false,
+    "MinDelayMS": 300,
+    "MaxDelayMS": 5000
+  }
 }

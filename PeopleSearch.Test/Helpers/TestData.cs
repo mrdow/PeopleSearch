@@ -5,23 +5,21 @@ namespace PeopleSearch.Test.Helpers
 {
     public class TestData
     {
-        #region Person Data
-
-        public Person TestPerson1 = new Person
-        {
-            FirstName = "Alex",
-            LastName = "Dow",
-            BirthDate = new DateTime(1988, 11, 1),
-            Address = new Address { Address1 = "6821 Upland Dr", City = "Arlington", State = StateCode.WA, Zip = "98223" },
-            Interests = new Interest[]
+        public static Person TestPerson1() => new Person
+            {
+                FirstName = "Alex",
+                LastName = "Dow",
+                BirthDate = new DateTime(1988, 11, 1),
+                Address = new Address { Address1 = "6821 Upland Dr", City = "Arlington", State = StateCode.WA, Zip = "98223" },
+                Interests = new Interest[]
                     {
                         new Interest { Name = "Hiking" },
                         new Interest { Name = "Financial podcasts" },
                         new Interest { Name = "Football" }
                     }
-        };
+            };
 
-        public Person TestPerson2 = new Person
+        public static Person TestPerson2() => new Person
         {
             FirstName = "Elvis",
             LastName = "Presley",
@@ -35,7 +33,5 @@ namespace PeopleSearch.Test.Helpers
                         new Interest { Name = "Football" }
                     }
         };
-
-        #endregion
     }
 }
