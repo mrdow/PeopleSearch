@@ -14,6 +14,11 @@ namespace PeopleSearch.Data
         public DbSet<Person> People { get; set; }
 
         /// <summary>
+        /// A DbSet of Interest objects.
+        /// </summary>
+        public DbSet<Interest> Interests { get; set; }
+
+        /// <summary>
         /// A DbSet of Image objects.
         /// </summary>
         public DbSet<Image> Images { get; set; }

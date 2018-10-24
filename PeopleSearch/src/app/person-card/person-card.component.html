@@ -1,6 +1,6 @@
 <div class="d-flex flex-row">
   <div class="col-md-3">
-    <img *ngIf="imageUrl" class="img-fluid img-thumbnail" id="image" src="{{imageUrl}}">
+    <img *ngIf="safeUrl" class="img-fluid img-thumbnail" id="image" [src]="safeUrl">
   </div>
   <div class="col-md-4" card-body>
     <div class="d-flex flex-column">

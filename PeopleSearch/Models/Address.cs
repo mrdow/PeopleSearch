@@ -1,4 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Runtime.Serialization;
 
 namespace PeopleSearch.Models
 {
@@ -71,6 +73,18 @@ namespace PeopleSearch.Models
         public long Id { get; set; }
 
         /// <summary>
+        /// Foreign key to the Person table.
+        /// </summary>
+        [ForeignKey("Person")]
+        public long PersonId { get; set; }
+
+        /// <summary>
+        /// The related Person.
+        /// </summary>
+        [IgnoreDataMember]
+        public Person Person { get; set; }
+
+        /// <summary>
         /// The first line of the address. This line is required and limited to 100 characters.
         /// </summary>
         [Required]
@@ -102,7 +116,7 @@ namespace PeopleSearch.Models
         /// The ZIP code the address belongs to. This field is required and must be either 5 digits or 9 digits with a dash.
         /// </summary>
         [Required]
-        [RegularExpression(@"^\d{5}(-\d{4})?$", ErrorMessage = "Invalid Zip")]
+        [RegularExpression(@"(\d{5}([\-]\d{4})?)", ErrorMessage = "Invalid Zip")]
         public string Zip { get; set; }
     }
 }

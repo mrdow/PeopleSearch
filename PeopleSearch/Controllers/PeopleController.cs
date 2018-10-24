@@ -1,12 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
-using PeopleSearch.Data.Repositories;
 using PeopleSearch.Data.Repositories.Interfaces;
 using PeopleSearch.Models;
-using PeopleSearch.Utils.Interfaces;
-using System;
 using System.Collections.Generic;
-using System.Threading;
 using System.Threading.Tasks;
 
 namespace PeopleSearch.Controllers
@@ -41,7 +36,7 @@ namespace PeopleSearch.Controllers
         {
             return await _personRepository.SearchPeopleAsync(searchString);
         }
-        
+
         /// <summary>
         /// Gets the Person matching the provided id.
         /// </summary>
@@ -53,7 +48,7 @@ namespace PeopleSearch.Controllers
         {
             return await _personRepository.GetByIdAsync(id);
         }
-        
+
         /// <summary>
         /// Adds or updates the Provided Person.
         /// </summary>
@@ -75,7 +70,7 @@ namespace PeopleSearch.Controllers
         {
             return await _personRepository.AddPersonAsync(person);
         }
-        
+
         /// <summary>
         /// Deletes the Person identified by the provided id.
         /// </summary>

@@ -1,7 +1,8 @@
 export class Image {
 
-  id: number = 0;
-  name: string = '';
-  data: Uint8Array;
-  contentType: string = '';
+  id: number;
+  personId: number;
+  name: string;
+  file: string;
+  contentType: string;
 }

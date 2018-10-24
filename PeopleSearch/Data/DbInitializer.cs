@@ -38,38 +38,31 @@ namespace PeopleSearch.Data
             {
                 return;
             }
-
-            Image image1 = null;
+            
             string imagePath = $"{_env.ContentRootPath}/Images/AlexDow.jpg";
-            using (var isImage = SixLabors.ImageSharp.Image.Load(imagePath))
-            {
-                image1 = new Image
+            byte[] imageBytes = File.ReadAllBytes(imagePath);
+            string base64String = Convert.ToBase64String(imageBytes);
+
+            Image image1 = new Image
                 {
                     Name = Path.GetFileName(imagePath),
-                    Data = File.ReadAllBytes(imagePath),
+                    File = Convert.FromBase64String(base64String),
                     ContentType = $"img/{Path.GetExtension(imagePath).Replace(".", "")}"
                 };
-            }
-
-            Image image2 = null;
             imagePath = $"{_env.ContentRootPath}/Images/ElvisPresley.jpg";
-            using (var isImage = SixLabors.ImageSharp.Image.Load(imagePath))
-            {
-                image2 = new Image
+            imageBytes = File.ReadAllBytes(imagePath);
+            base64String = Convert.ToBase64String(imageBytes);
+            Image image2 = new Image
                 {
                     Name = Path.GetFileName(imagePath),
-                    Data = File.ReadAllBytes(imagePath),
+                    File = Convert.FromBase64String(base64String),
                     ContentType = $"img/{Path.GetExtension(imagePath).Replace(".", "")}"
                 };
-            }
-
-            _context.Images.AddRange(image1, image2);
-            _context.SaveChanges();
 
             Person[] people = new[]
             {
                 new Person{
-                    ImageId = image1.Id,
+                    Image = image1,
                     FirstName = "Alex",
                     LastName = "Dow",
                     BirthDate = new DateTime(1988, 11, 1),
@@ -83,7 +76,7 @@ namespace PeopleSearch.Data
                 },
                 new Person
                 {
-                    ImageId = image2.Id,
+                    Image = image2,
                     FirstName = "Elvis",
                     LastName = "Presley",
                     BirthDate = new DateTime(1935, 1, 8),
@@ -96,18 +89,6 @@ namespace PeopleSearch.Data
                         new Interest { Name = "Football" },
                         new Interest { Name = "Meatloaf" }
                     }
-                },
-                new Person
-                {
-                    FirstName = "Test",
-                    LastName = "Person",
-                    BirthDate = DateTime.Now
-                },
-                new Person
-                {
-                    FirstName = "Someone",
-                    LastName = "Else",
-                    BirthDate = DateTime.Now.AddYears(-30)
                 }
             };
 

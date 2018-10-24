@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
+import { DomSanitizer, SafeResourceUrl, SafeUrl } from '@angular/platform-browser';
 
-import { ImageService } from '../image.service';
 import { StateCodes } from '../address';
 import { Person } from '../person';
 
@@ -12,16 +12,20 @@ import { Person } from '../person';
 export class PersonCardComponent implements OnInit {
   @Input() person: Person;
 
-  imageUrl: string;
+  srcData: SafeResourceUrl;
+  safeUrl: SafeUrl;
 
   stateCodes = StateCodes;
 
   constructor(
-    private imageService: ImageService
+    private sanitizer: DomSanitizer
   ) { }
 
   ngOnInit() {
-    this.imageUrl = this.imageService.getImageUrl(this.person.imageId);
+    if (this.person.image) {
+      let unsafeUrl = `data:${this.person.image.contentType};base64,${this.person.image.file}`
+      this.safeUrl = this.sanitizer.bypassSecurityTrustUrl(unsafeUrl);
+    }
   }
 
   getAge() {

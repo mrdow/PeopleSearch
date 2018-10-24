@@ -1,4 +1,5 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, AfterViewChecked, Input, ViewChild, Output, EventEmitter } from '@angular/core';
+import { NgForm } from '@angular/forms';
 
 import { Address, StateCodes } from '../address';
 
@@ -7,14 +8,33 @@ import { Address, StateCodes } from '../address';
   templateUrl: './address-form.component.html',
   styleUrls: ['./address-form.component.scss']
 })
-export class AddressFormComponent implements OnInit {
-  @Input() address: Address;
+export class AddressFormComponent implements AfterViewChecked {
+  @ViewChild('addressForm') public form: NgForm;
 
+  @Output() onValidationChanged = new EventEmitter<boolean>();
+  private _address = new Address();
+  @Input() address
+  set(value: Address) {
+    if (value) {
+      this._address = value;
+    }
+  }
+  get(): Address {
+    return this._address;
+  }
+
+  public isValid: boolean;
   stateCodes = StateCodes;
 
   constructor() { }
 
-  ngOnInit() {
+  ngAfterViewChecked() {
+    this.isValid = this.form.valid;
+    this.onValidationChanged.emit(this.isValid);
+  }
+
+  validationChanged() {
+
   }
 
   stateCodeKeys(): string[] {

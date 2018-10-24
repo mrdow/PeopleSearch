@@ -54,6 +54,7 @@ export enum StateCodes {
 
 export class Address {
   id: number;
+  personId: number;
   address1: string;
   address2: string;
   city: string;

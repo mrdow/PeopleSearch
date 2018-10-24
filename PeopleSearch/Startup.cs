@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Newtonsoft.Json;
 using PeopleSearch.Data;
 using PeopleSearch.Data.Repositories;
 using PeopleSearch.Data.Repositories.Interfaces;
@@ -40,7 +41,6 @@ namespace PeopleSearch
                 options.UseSqlServer(peopleSearchConnectionString);
             });
             services.AddTransient<IPersonRepository, PersonRepository>();
-            services.AddTransient<IImageRepository, ImageRepository>();
             services.AddTransient<LatencySimulationFilter>();
             services.AddTransient<ILatencySimulator, LatencySimulator>();
 
@@ -53,7 +53,11 @@ namespace PeopleSearch
                     options.Filters.Add(typeof(LatencySimulationFilter));
                 }
             })
-            .SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            .SetCompatibilityVersion(CompatibilityVersion.Version_2_1)
+            .AddJsonOptions(options =>
+            {
+                options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+            });
             services.Configure<GzipCompressionProviderOptions>(options => options.Level = System.IO.Compression.CompressionLevel.Optimal);
         }
 

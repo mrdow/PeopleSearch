@@ -15,9 +15,6 @@ namespace PeopleSearch.Models
         /// </summary>
         public long Id { get; set; }
 
-        [ForeignKey("Image")]
-        public long ImageId { get; set; }
-
         /// <summary>
         /// The person's first name. This field is required and limited to 50 characters.
         /// </summary>
@@ -66,5 +63,10 @@ namespace PeopleSearch.Models
         /// A list of the person's interests.
         /// </summary>
         public IList<Interest> Interests { get; set; }
+
+        /// <summary>
+        /// The person's image.
+        /// </summary>
+        public Image Image { get; set; }
     }
 }

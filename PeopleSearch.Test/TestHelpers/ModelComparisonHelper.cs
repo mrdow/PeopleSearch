@@ -32,14 +32,45 @@ namespace PeopleSearch.Test.Helpers
                 return;
             }
             Assert.IsNotNull(actual, "Expected Person to not be null");
-            Assert.AreEqual(expected.ImageId, actual.ImageId, $"Expected {nameof(expected.ImageId)} to be {expected.ImageId}");
             Assert.AreEqual(expected.FirstName, actual.FirstName, $"Expected {nameof(expected.FirstName)} to be {expected.FirstName}");
             Assert.AreEqual(expected.LastName, actual.LastName, $"Expected {nameof(expected.LastName)} to be {expected.LastName}");
             Assert.AreEqual(expected.BirthDate, actual.BirthDate, $"Expected {nameof(expected.BirthDate)} to be {expected.BirthDate}");
             Assert.AreEqual(expected.DeathDate, actual.DeathDate, $"Expected {nameof(expected.DeathDate)} to be {expected.DeathDate}");
 
+            AssertImagesAreEqual(expected.Image, actual.Image);
             AssertAddressesAreEqual(expected.Address, actual.Address);
             AssertInterestListsAreEqual(expected.Interests, actual.Interests);
+        }
+
+        private static void AssertImagesAreEqual(Image expected, Image actual)
+        {
+            if (expected == null)
+            {
+                Assert.IsNull(actual, "Expected Image to be null");
+                return;
+            }
+
+            Assert.IsNotNull(actual, "Expected Image not to be null");
+            Assert.AreEqual(expected.Name, actual.Name, $"Expected {nameof(expected.Name)} to be {expected.Name}");
+            Assert.AreEqual(expected.ContentType, actual.ContentType, $"Expected {nameof(expected.ContentType)} to be {expected.ContentType}");
+            AssertImageFilesAreEqual(expected.File, actual.File);
+        }
+
+        private static void AssertImageFilesAreEqual(byte[] expected, byte[] actual)
+        {
+            if (expected == null)
+            {
+                Assert.IsNull(actual, "Expected image File to be null");
+                return;
+            }
+
+            Assert.IsNotNull(actual, "Expected image File to not be null");
+            Assert.AreEqual(expected.Length, actual.Length, $"Expected image File to have {expected.Length} bytes");
+
+            for (int i = 0; i < expected.Length; i++)
+            {
+                Assert.AreEqual(expected[i], actual[i], $"Invalid image File byte at position {i}");
+            }
         }
 
         private static void AssertAddressesAreEqual(Address expected, Address actual)

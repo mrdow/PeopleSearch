@@ -14,16 +14,14 @@ namespace PeopleSearch.Data.Repositories
     public class PersonRepository : IPersonRepository
     {
         private readonly PeopleSearchDbContext _context;
-        private readonly IImageRepository _imageRepository;
 
         /// <summary>
         /// Constructor which expects a PeopleSearchDbContext to use as the repository.
         /// </summary>
         /// <param name="context">The context to use as the repository.</param>
-        public PersonRepository(PeopleSearchDbContext context, IImageRepository imageRepository)
+        public PersonRepository(PeopleSearchDbContext context)
         {
             _context = context;
-            _imageRepository = imageRepository;
         }
 
         /// <summary>
@@ -34,6 +32,7 @@ namespace PeopleSearch.Data.Repositories
         {
             return await _context
                 .People
+                .Include(person => person.Image)
                 .Include(person => person.Address)
                 .Include(person => person.Interests)
                 .AsNoTracking()
@@ -56,6 +55,7 @@ namespace PeopleSearch.Data.Repositories
                 .People
                 .Where(p => p.FirstName.Contains(searchString, StringComparison.OrdinalIgnoreCase)
                         || p.LastName.Contains(searchString, StringComparison.OrdinalIgnoreCase))
+                .Include(person => person.Image)
                 .Include(person => person.Address)
                 .Include(person => person.Interests)
                 .AsNoTracking()
@@ -71,6 +71,7 @@ namespace PeopleSearch.Data.Repositories
         {
             return await _context
                 .People
+                .Include(person => person.Image)
                 .Include(person => person.Address)
                 .Include(person => person.Interests)
                 .AsNoTracking()
@@ -105,6 +106,11 @@ namespace PeopleSearch.Data.Repositories
                 EntityState state = person.Id == 0 ? EntityState.Added : EntityState.Modified;
                 _context.Entry(person).State = state;
 
+                if (person.Image != null)
+                {
+                    _context.Entry(person.Image).State = person.Image.Id == 0 ? EntityState.Added : EntityState.Modified;
+                }
+
                 if (person.Address != null)
                 {
                     _context.Entry(person.Address).State = person.Address.Id == 0 ? EntityState.Added : EntityState.Modified;
@@ -115,6 +121,15 @@ namespace PeopleSearch.Data.Repositories
                     foreach (var interest in person.Interests)
                     {
                         _context.Entry(interest).State = interest.Id == 0 ? EntityState.Added : EntityState.Modified;
+                    }
+                    if (person.Id != 0)
+                    {
+                        var removedInterests = await _context
+                            .Interests
+                            .Where(existing => existing.PersonId == person.Id
+                                && !person.Interests.Any(remaining => remaining.Id == existing.Id))
+                            .ToArrayAsync();
+                        _context.Interests.RemoveRange(removedInterests);
                     }
                 }
                 await _context.SaveChangesAsync();
@@ -130,17 +145,8 @@ namespace PeopleSearch.Data.Repositories
         /// <returns>The Task to be awaited.</returns>
         public async Task DeletePersonAsync(long id)
         {
-            Person person = new Person
-            {
-                Id = id
-            };
-
-            _context.Attach(person);
-
-            if (person.ImageId != 0)
-            {
-                await _imageRepository.DeleteImageAsync(person.ImageId);
-            }
+            Person person = new Person { Id = id };
+            _context.People.Attach(person);
             _context.People.Remove(person);
             await _context.SaveChangesAsync();
         }

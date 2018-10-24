@@ -3,7 +3,7 @@
   <div *ngFor="let interest of interests"
        class="interest card d-flex flex-row">
     <div class="card-body">{{interest.name}}</div>
-    <button class="btn btn-outline-danger" title="delete interest"
+    <button class="btn btn-outline-danger" type="button"
             (click)="delete(interest)">
       x
     </button>
