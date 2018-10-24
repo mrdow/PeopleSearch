@@ -1,4 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using PeopleSearch.Models;
 
 namespace PeopleSearch.Data
@@ -12,6 +12,11 @@ namespace PeopleSearch.Data
         /// A DbSet of Person objects.
         /// </summary>
         public DbSet<Person> People { get; set; }
+
+        /// <summary>
+        /// A DbSet of Image objects.
+        /// </summary>
+        public DbSet<Image> Images { get; set; }
 
         /// <summary>
         /// Constructor expecting DbContextOptions.

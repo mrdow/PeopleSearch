@@ -32,11 +32,11 @@ namespace PeopleSearch.Test.Helpers
                 return;
             }
             Assert.IsNotNull(actual, "Expected Person to not be null");
+            Assert.AreEqual(expected.ImageId, actual.ImageId, $"Expected {nameof(expected.ImageId)} to be {expected.ImageId}");
             Assert.AreEqual(expected.FirstName, actual.FirstName, $"Expected {nameof(expected.FirstName)} to be {expected.FirstName}");
             Assert.AreEqual(expected.LastName, actual.LastName, $"Expected {nameof(expected.LastName)} to be {expected.LastName}");
             Assert.AreEqual(expected.BirthDate, actual.BirthDate, $"Expected {nameof(expected.BirthDate)} to be {expected.BirthDate}");
             Assert.AreEqual(expected.DeathDate, actual.DeathDate, $"Expected {nameof(expected.DeathDate)} to be {expected.DeathDate}");
-            Assert.AreEqual(expected.Image, actual.Image, $"Expected {nameof(expected.Image)} to be {expected.Image}");
 
             AssertAddressesAreEqual(expected.Address, actual.Address);
             AssertInterestListsAreEqual(expected.Interests, actual.Interests);

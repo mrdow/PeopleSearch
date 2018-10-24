@@ -14,14 +14,16 @@ namespace PeopleSearch.Data.Repositories
     public class PersonRepository : IPersonRepository
     {
         private readonly PeopleSearchDbContext _context;
+        private readonly IImageRepository _imageRepository;
 
         /// <summary>
         /// Constructor which expects a PeopleSearchDbContext to use as the repository.
         /// </summary>
         /// <param name="context">The context to use as the repository.</param>
-        public PersonRepository(PeopleSearchDbContext context)
+        public PersonRepository(PeopleSearchDbContext context, IImageRepository imageRepository)
         {
             _context = context;
+            _imageRepository = imageRepository;
         }
 
         /// <summary>
@@ -90,7 +92,7 @@ namespace PeopleSearch.Data.Repositories
 
             return person;
         }
-        
+
         /// <summary>
         /// Adds or updates the provided person in the repository.
         /// </summary>
@@ -100,13 +102,27 @@ namespace PeopleSearch.Data.Repositories
         {
             if (person != null)
             {
-                _context.Entry(person).State = person.Id == 0 ? EntityState.Added : EntityState.Modified;
+                EntityState state = person.Id == 0 ? EntityState.Added : EntityState.Modified;
+                _context.Entry(person).State = state;
+
+                if (person.Address != null)
+                {
+                    _context.Entry(person.Address).State = person.Address.Id == 0 ? EntityState.Added : EntityState.Modified;
+                }
+
+                if (person.Interests != null)
+                {
+                    foreach (var interest in person.Interests)
+                    {
+                        _context.Entry(interest).State = interest.Id == 0 ? EntityState.Added : EntityState.Modified;
+                    }
+                }
                 await _context.SaveChangesAsync();
             }
 
             return person;
         }
-        
+
         /// <summary>
         /// Deletes the Person identified by the provided id.
         /// </summary>
@@ -120,6 +136,11 @@ namespace PeopleSearch.Data.Repositories
             };
 
             _context.Attach(person);
+
+            if (person.ImageId != 0)
+            {
+                await _imageRepository.DeleteImageAsync(person.ImageId);
+            }
             _context.People.Remove(person);
             await _context.SaveChangesAsync();
         }

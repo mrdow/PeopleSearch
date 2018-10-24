@@ -70,7 +70,6 @@ export class PersonService {
    * @param person - the person to update
    */
   updatePerson(person: Person): Observable<any> {
-
     return this.http.put(this.peopleUrl, person, httpOptions)
       .pipe(
       catchError(this.handleError<any>('updatePerson'))

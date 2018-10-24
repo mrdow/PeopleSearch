@@ -18,7 +18,9 @@ namespace PeopleSearch.Filters
         public async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
         {
             var controllerActionDescriptor = context.ActionDescriptor as ControllerActionDescriptor;
-            if(controllerActionDescriptor.ControllerName == nameof(PeopleController)
+
+            // Only impose latency on PeopleController.GetAsync
+            if(controllerActionDescriptor.ControllerName == nameof(PeopleController).Substring(0, nameof(PeopleController).LastIndexOf("Controller"))
                 && controllerActionDescriptor.ActionName == nameof(PeopleController.GetAsync))
             {
                 _latencySimulator.RandomDelay();

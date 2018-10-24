@@ -1,0 +1,16 @@
+<div class="list-group d-flex justify-content-center">
+  <div class="fa-3x d-flex justify-content-center" *ngIf="loading; else peopleList">
+    <i class="fas fa-spinner fa-spin"></i>
+  </div>
+  <ng-template #peopleList>
+      <div class="person-item btn-group" *ngFor="let person of _people">
+        <button class="btn btn-outline-secondary flex-grow-1 text-left" routerLink="/detail/{{person.id}}">
+          {{person.firstName}} {{person.lastName}}
+        </button>
+        <button class="btn btn-outline-danger right" title="delete person"
+                (click)="delete(person)">
+          x
+        </button>
+      </div>
+  </ng-template>
+</div>

@@ -1,6 +1,7 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 
 import { Person } from '../person';
+import { Image } from '../image';
 
 @Component({
   selector: 'app-person-form',
@@ -9,18 +10,25 @@ import { Person } from '../person';
 })
 export class PersonFormComponent implements OnInit {
   @Input() person: Person;
-  @Output() onDone = new EventEmitter<Person>();
+  @Input() imageUrl: string;
+
+  image: File;
+  imageString: string;
 
   constructor() { }
 
   ngOnInit() {
   }
 
-  done() {
-    this.onDone.emit(this.person);
+  processImage(imageInput: any) {
+    this.image = imageInput.files[0];
+    
+    var fr = new FileReader();
+    fr.onload = () => this.imageString = fr.result as string;
+    fr.readAsDataURL(this.image);
   }
 
-  get diagnostic() {
-    return JSON.stringify(this.person);
+  processDate(event: any) {
+    this.person.deathDate = event.target.value;
   }
 }

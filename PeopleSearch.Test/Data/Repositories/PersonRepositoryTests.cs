@@ -22,7 +22,7 @@ namespace PeopleSearch.Test.Data.Repositories
             // Arrange
             using (PeopleSearchDbContext testContext = GetTestContext())
             {
-                PersonRepository repository = new PersonRepository(testContext);
+                PersonRepository repository = new PersonRepository(testContext, null);
 
                 IList<Person> expected = new List<Person>();
 
@@ -46,7 +46,7 @@ namespace PeopleSearch.Test.Data.Repositories
                 testContext.People.Add(added);
                 await testContext.SaveChangesAsync();
 
-                PersonRepository repository = new PersonRepository(testContext);
+                PersonRepository repository = new PersonRepository(testContext, null);
 
                 // Act
                 IList<Person> actual = await repository.SearchPeopleAsync(null);
@@ -66,7 +66,7 @@ namespace PeopleSearch.Test.Data.Repositories
             // Arrange
             using (PeopleSearchDbContext testContext = GetTestContext())
             {
-                PersonRepository repository = new PersonRepository(testContext);
+                PersonRepository repository = new PersonRepository(testContext, null);
 
                 IList<Person> expected = new List<Person>();
 
@@ -90,7 +90,7 @@ namespace PeopleSearch.Test.Data.Repositories
                 testContext.People.Add(added);
                 await testContext.SaveChangesAsync();
 
-                PersonRepository repository = new PersonRepository(testContext);
+                PersonRepository repository = new PersonRepository(testContext, null);
 
                 // Act
                 IList<Person> actual = await repository.SearchPeopleAsync(null);
@@ -114,7 +114,7 @@ namespace PeopleSearch.Test.Data.Repositories
                 testContext.People.Add(added2);
                 await testContext.SaveChangesAsync();
 
-                PersonRepository repository = new PersonRepository(testContext);
+                PersonRepository repository = new PersonRepository(testContext, null);
 
                 // Act
                 IList<Person> actual = await repository.AllPeopleAsync();
@@ -137,7 +137,7 @@ namespace PeopleSearch.Test.Data.Repositories
                 testContext.People.Add(added);
                 await testContext.SaveChangesAsync();
 
-                PersonRepository repository = new PersonRepository(testContext);
+                PersonRepository repository = new PersonRepository(testContext, null);
 
                 // Act
                 IList<Person> actual = await repository.SearchPeopleAsync(added.FirstName);
@@ -159,7 +159,7 @@ namespace PeopleSearch.Test.Data.Repositories
                 testContext.People.Add(added);
                 await testContext.SaveChangesAsync();
 
-                PersonRepository repository = new PersonRepository(testContext);
+                PersonRepository repository = new PersonRepository(testContext, null);
 
                 // Act
                 IList<Person> actual = await repository.SearchPeopleAsync(added.LastName);
@@ -181,7 +181,7 @@ namespace PeopleSearch.Test.Data.Repositories
                 testContext.People.Add(added);
                 await testContext.SaveChangesAsync();
 
-                PersonRepository repository = new PersonRepository(testContext);
+                PersonRepository repository = new PersonRepository(testContext, null);
 
                 // Act
                 IList<Person> actual = await repository.SearchPeopleAsync(added.FirstName.ToUpper());
@@ -205,7 +205,7 @@ namespace PeopleSearch.Test.Data.Repositories
                 testContext.People.Add(added2);
                 await testContext.SaveChangesAsync();
 
-                PersonRepository repository = new PersonRepository(testContext);
+                PersonRepository repository = new PersonRepository(testContext, null);
 
                 // Act
                 IList<Person> actual = await repository.SearchPeopleAsync("x");
@@ -230,7 +230,7 @@ namespace PeopleSearch.Test.Data.Repositories
                 testContext.People.Add(added2);
                 await testContext.SaveChangesAsync();
 
-                PersonRepository repository = new PersonRepository(testContext);
+                PersonRepository repository = new PersonRepository(testContext, null);
 
                 // Act
                 IList<Person> actual = await repository.SearchPeopleAsync("e");
@@ -253,7 +253,7 @@ namespace PeopleSearch.Test.Data.Repositories
                 testContext.People.Add(TestData.TestPerson2());
                 await testContext.SaveChangesAsync();
 
-                PersonRepository repository = new PersonRepository(testContext);
+                PersonRepository repository = new PersonRepository(testContext, null);
 
                 // Act
                 IList<Person> actual = await repository.SearchPeopleAsync("zzz");
@@ -273,7 +273,7 @@ namespace PeopleSearch.Test.Data.Repositories
             // Arrange
             using (PeopleSearchDbContext testContext = GetTestContext())
             {
-                PersonRepository repository = new PersonRepository(testContext);
+                PersonRepository repository = new PersonRepository(testContext, null);
 
                 Person expected = null;
 
@@ -297,7 +297,7 @@ namespace PeopleSearch.Test.Data.Repositories
                 testContext.People.Add(added);
                 await testContext.SaveChangesAsync();
 
-                PersonRepository repository = new PersonRepository(testContext);
+                PersonRepository repository = new PersonRepository(testContext, null);
 
                 // Act
                 Person actual = await repository.GetByIdAsync(expected.Id);
@@ -321,7 +321,7 @@ namespace PeopleSearch.Test.Data.Repositories
                 testContext.People.Add(added2);
                 await testContext.SaveChangesAsync();
 
-                PersonRepository repository = new PersonRepository(testContext);
+                PersonRepository repository = new PersonRepository(testContext, null);
 
                 // Act
                 Person actual = await repository.GetByIdAsync(expected.Id);
@@ -343,7 +343,7 @@ namespace PeopleSearch.Test.Data.Repositories
                 testContext.People.Add(TestData.TestPerson2());
                 await testContext.SaveChangesAsync();
 
-                PersonRepository repository = new PersonRepository(testContext);
+                PersonRepository repository = new PersonRepository(testContext, null);
 
                 // Act
                 Person actual = await repository.GetByIdAsync(123);
@@ -364,7 +364,7 @@ namespace PeopleSearch.Test.Data.Repositories
             using (PeopleSearchDbContext testContext = GetTestContext())
             {
 
-                PersonRepository repository = new PersonRepository(testContext);
+                PersonRepository repository = new PersonRepository(testContext, null);
 
                 int expected = 0;
 
@@ -386,7 +386,7 @@ namespace PeopleSearch.Test.Data.Repositories
                 Person expected = TestData.TestPerson1();
 
 
-                PersonRepository repository = new PersonRepository(testContext);
+                PersonRepository repository = new PersonRepository(testContext, null);
 
                 // Act
                 Person actual = await repository.AddPersonAsync(expected);
@@ -406,7 +406,7 @@ namespace PeopleSearch.Test.Data.Repositories
                 IList<Person> expected = new List<Person> { added };
 
 
-                PersonRepository repository = new PersonRepository(testContext);
+                PersonRepository repository = new PersonRepository(testContext, null);
 
                 // Act
                 await repository.AddPersonAsync(added);
@@ -429,7 +429,7 @@ namespace PeopleSearch.Test.Data.Repositories
                 testContext.People.Add(added);
                 await testContext.SaveChangesAsync();
 
-                PersonRepository repository = new PersonRepository(testContext);
+                PersonRepository repository = new PersonRepository(testContext, null);
 
                 // Act
                 await repository.AddPersonAsync(added);
@@ -451,7 +451,7 @@ namespace PeopleSearch.Test.Data.Repositories
             using (PeopleSearchDbContext testContext = GetTestContext())
             {
 
-                PersonRepository repository = new PersonRepository(testContext);
+                PersonRepository repository = new PersonRepository(testContext, null);
 
                 int expected = 0;
 
@@ -472,7 +472,7 @@ namespace PeopleSearch.Test.Data.Repositories
             {
                 Person expected = TestData.TestPerson1();
 
-                PersonRepository repository = new PersonRepository(testContext);
+                PersonRepository repository = new PersonRepository(testContext, null);
 
                 // Act
                 Person actual = await repository.AddOrUpdatePerson(expected);
@@ -491,7 +491,7 @@ namespace PeopleSearch.Test.Data.Repositories
                 Person added = TestData.TestPerson1();
                 IList<Person> expected = new List<Person> { added };
 
-                PersonRepository repository = new PersonRepository(testContext);
+                PersonRepository repository = new PersonRepository(testContext, null);
 
                 // Act
                 await repository.AddOrUpdatePerson(added);
@@ -519,7 +519,7 @@ namespace PeopleSearch.Test.Data.Repositories
                 modified.FirstName = "New name";
                 added.FirstName = "New name";
 
-                PersonRepository repository = new PersonRepository(testContext);
+                PersonRepository repository = new PersonRepository(testContext, null);
 
                 // Act
                 await repository.AddOrUpdatePerson(added);
@@ -547,7 +547,7 @@ namespace PeopleSearch.Test.Data.Repositories
                 testContext.People.Add(person1);
                 await testContext.SaveChangesAsync();
 
-                PersonRepository repository = new PersonRepository(testContext);
+                PersonRepository repository = new PersonRepository(testContext, null);
 
                 // Act
                 await repository.DeletePersonAsync(person2.Id);
@@ -571,7 +571,7 @@ namespace PeopleSearch.Test.Data.Repositories
                 await testContext.SaveChangesAsync();
                 testContext.Entry(added).State = EntityState.Detached;
 
-                PersonRepository repository = new PersonRepository(testContext);
+                PersonRepository repository = new PersonRepository(testContext, null);
 
                 // Act
                 await repository.DeletePersonAsync(added.Id);

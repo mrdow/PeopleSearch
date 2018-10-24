@@ -1,13 +1,14 @@
 import { Address } from './address';
-import { Interst } from './interest';
+import { Interest } from './interest';
+import { Image } from './image';
 
 export class Person {
-  id: number;
-  firstName: string;
-  lastName: string;
-  birthDate: string;
-  deathDate: string;
-  image: string;
-  address: Address;
-  intersts: Interst[];
+  id: number = 0;
+  imageId: number = 0;
+  firstName: string = '';
+  lastName: string = '';
+  birthDate: string = '';
+  deathDate: string = '';
+  address: Address = new Address();
+  interests: Interest[] = [];
 }

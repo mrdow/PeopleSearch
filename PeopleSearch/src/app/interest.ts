@@ -1,3 +1,4 @@
-export class Interst {
+export class Interest {
+  id: number
   name: string
 }

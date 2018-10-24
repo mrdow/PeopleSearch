@@ -1,9 +1,11 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Location } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 
 import { PersonService } from '../person.service';
 import { Person } from '../person';
+import { ImageService } from '../image.service';
+import { PersonFormComponent } from '../person-form/person-form.component';
 
 @Component({
   selector: 'app-person-detail',
@@ -11,11 +13,19 @@ import { Person } from '../person';
   styleUrls: ['./person-detail.component.scss']
 })
 export class PersonDetailComponent implements OnInit {
-  @Input() person: Person;
+  @ViewChild(PersonFormComponent) personForm: PersonFormComponent;
+
+  person: Person = new Person();
+  imageUrl: string;
+
+  isNew: boolean;
+
+  isSaving: boolean = false;
 
   constructor(
     private route: ActivatedRoute,
     private personService: PersonService,
+    private imageService: ImageService,
     private location: Location
   ) { }
 
@@ -25,32 +35,43 @@ export class PersonDetailComponent implements OnInit {
 
   getPerson(): void {
     const id = +this.route.snapshot.paramMap.get('id');
-    this.personService.getPerson(id)
-      .subscribe(person => this.person = person);
-  }
-
-  add(firstName: string, lastName: string): void {
-    firstName = firstName.trim();
-    lastName = lastName.trim();
-
-    if (!firstName && !lastName) {
-      return;
+    if (id) {
+      this.personService.getPerson(id)
+        .subscribe(person => {
+          this.person = person;
+          if (this.person.imageId) {
+            this.imageUrl = this.imageService.getImageUrl(this.person.imageId)
+          }
+        });
     }
-
-    this.personService.addPerson({ firstName, lastName } as Person)
-      .subscribe(this.onChange);
+    else {
+      this.isNew = true;
+    }
   }
 
   save(): void {
-    this.personService.updatePerson(this.person)
-      .subscribe(this.onChange);
+    this.isSaving = true;
+    if (this.personForm.image) {
+      this.imageService.updateImage(this.personForm.image, this.person.imageId)
+        .subscribe((imageId) => {
+          this.person.imageId = imageId;
+          this.personService.updatePerson(this.person)
+            .subscribe(
+              () => this.goBack(),
+              () => this.isSaving = false
+            );
+        });
+    }
+    else {
+      this.personService.updatePerson(this.person)
+        .subscribe(
+          () => this.goBack(),
+          () => this.isSaving = false
+        );
+    }
   }
 
   goBack(): void {
     this.location.back();
-  }
-
-  onChange(): void {
-    this.goBack();
   }
 }
