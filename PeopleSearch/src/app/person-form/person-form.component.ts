@@ -1,7 +1,6 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 
 import { Person } from '../person';
-import { Image } from '../image';
 
 @Component({
   selector: 'app-person-form',

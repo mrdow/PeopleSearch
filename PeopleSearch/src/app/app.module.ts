@@ -16,6 +16,7 @@ import { PersonListComponent } from './person-list/person-list.component';
 import { AddressFormComponent } from './address-form/address-form.component';
 import { InterestListComponent } from './interest-list/interest-list.component';
 import { InterestsFormComponent } from './interests-form/interests-form.component';
+import { PersonCardComponent } from './person-card/person-card.component';
 
 library.add(faSpinner);
 
@@ -29,7 +30,8 @@ library.add(faSpinner);
     PersonListComponent,
     AddressFormComponent,
     InterestListComponent,
-    InterestsFormComponent
+    InterestsFormComponent,
+    PersonCardComponent
   ],
   imports: [
     BrowserModule,

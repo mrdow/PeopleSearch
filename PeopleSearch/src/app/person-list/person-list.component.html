@@ -5,7 +5,7 @@
   <ng-template #peopleList>
       <div class="person-item btn-group" *ngFor="let person of _people">
         <button class="btn btn-outline-secondary flex-grow-1 text-left" routerLink="/detail/{{person.id}}">
-          {{person.firstName}} {{person.lastName}}
+          <app-person-card [person]="person"></app-person-card>
         </button>
         <button class="btn btn-outline-danger right" title="delete person"
                 (click)="delete(person)">

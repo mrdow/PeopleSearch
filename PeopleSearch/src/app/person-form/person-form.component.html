@@ -36,7 +36,7 @@
     <label class="col-sm-2 col-form-label" for="birthDate">Birth date</label>
     <div class="col-sm-10">
       <input type="date" class="form-control" id="birthDate" name="birthDate"
-             [value]="person.birthDate | date:'yyyy-MM-dd'" (input)="person.birthDate=$event.target.value" />
+             [value]="person.birthDate | date:'shortDate'" (input)="person.birthDate=$event.target.value" />
     </div>
   </div>
 
@@ -44,7 +44,7 @@
     <label class="col-sm-2 col-form-label" for="deathDate">Death date</label>
     <div class="col-sm-10">
       <input type="date" class="form-control" id="deathDate" name="deathDate"
-             [value]="person.deathDate | date:'yyyy-MM-dd'" (input)="processDate($event)" />
+             [value]="person.deathDate | date:'shortDate'" (input)="processDate($event)" />
     </div>
   </div>
 

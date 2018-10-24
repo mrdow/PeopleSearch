@@ -19,7 +19,7 @@ export class ImageService {
   constructor(private http: HttpClient) { }
 
   getImageUrl(id: number): string {
-    return `${this.imagesUrl}/${id}`;
+    return id ? `${this.imagesUrl}/${id}` : '';
   }
 
   /**
@@ -31,7 +31,7 @@ export class ImageService {
 
     return this.http.get<Image>(url)
       .pipe(
-      catchError(this.handleError<Image>(`getImage id=${id}`))
+        catchError(this.handleError<Image>(`getImage id=${id}`))
       );
   }
 
