@@ -4,6 +4,8 @@
 /dist
 /tmp
 /out-tsc
+/wwwroot/*.js
+/wwwroot/*.map
 
 # dependencies
 /node_modules

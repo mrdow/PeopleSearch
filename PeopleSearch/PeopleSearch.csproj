@@ -3,8 +3,7 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp2.1</TargetFramework>
     <TypeScriptToolsVersion>3.1</TypeScriptToolsVersion>
-    <TypeScriptCompilerBlocked>true</TypeScriptCompilerBlocked>
-    <PostBuildEvent>ng build --aot</PostBuildEvent>
+    <TypeScriptCompileBlocked>true</TypeScriptCompileBlocked>
   </PropertyGroup>
 
   <ItemGroup>
@@ -41,5 +40,26 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
+
+  <Target Name="EnsureNode">
+    <Exec Command="node --version" ContinueOnError="true">
+      <Output TaskParameter="ExitCode" PropertyName="ErrorCode" />
+    </Exec>
+    <Error Condition="'$(ErrorCode)' != '0'" Text="Node.js is required to build and run this project. To continue, please install Node.js from https://nodejs.org/, and then restart your command prompt or IDE." />
+  </Target>
+  <Target Name="EnsureAngularCli">
+    <Exec Command="npm install -g @angular/cli" ContinueOnError="true">
+      <Output TaskParameter="ExitCode" PropertyName="ErrorCode" />
+    </Exec>
+    <Error Condition="'$(ErrorCode)' != '0'" Text="Angular CLI failed to install but is required to build this project. To continue, please install Angular CLI from https://cli.angular.io/." />
+  </Target>
+  <Target Name="ReleaseRunNgBuild" BeforeTargets="Build">
+    <CallTarget Targets="EnsureNode" />
+    <CallTarget Targets="EnsureAngularCli" />
+    <Message Importance="high" Text="Install packages..." />
+    <Exec Command="npm install" />
+    <Message Importance="high" Text="Performing ng build..." />
+    <Exec Command="npm run-script build-ahead" />
+  </Target>
 
 </Project>

@@ -58,7 +58,6 @@ namespace PeopleSearch
             {
                 options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
             });
-            services.Configure<GzipCompressionProviderOptions>(options => options.Level = System.IO.Compression.CompressionLevel.Optimal);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -70,11 +69,10 @@ namespace PeopleSearch
             app.UseMvc(routes =>
             {
                 routes.MapRoute("default", "api/{controller}/{id?}");
-                //routes.MapRoute("images", "api/images/{id?}");
                 routes.MapRoute("catchAll", "{*url}", defaults: new { controller = "Default", action = "Index" });
             });
-            app.UseCors(builder =>
-                builder.AllowAnyHeader().AllowAnyOrigin().AllowAnyMethod());
+            //app.UseCors(builder =>
+            //    builder.AllowAnyHeader().AllowAnyOrigin().AllowAnyMethod());
         }
     }
 }
