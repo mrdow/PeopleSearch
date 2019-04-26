@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -6,15 +7,16 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
-using PeopleSearch.Data;
-using PeopleSearch.Data.Repositories;
-using PeopleSearch.Data.Repositories.Interfaces;
-using PeopleSearch.Filters;
-using PeopleSearch.Utils;
-using PeopleSearch.Utils.Interfaces;
+using PeopleSearch.API.DataAccess;
+using PeopleSearch.API.DataAccess.Repositories;
+using PeopleSearch.API.DataAccess.Repositories.Interfaces;
+using PeopleSearch.API.Filters;
+using PeopleSearch.API.Utils;
+using PeopleSearch.API.Utils.Interfaces;
 
 namespace PeopleSearch
 {
+    [ExcludeFromCodeCoverage]
     public class Startup
     {
         private readonly IConfiguration _configuration;
@@ -65,14 +67,12 @@ namespace PeopleSearch
         {
             app.UseDeveloperExceptionPage();
 
-            app.UseFileServer();
+            app.UseStaticFiles();
             app.UseMvc(routes =>
             {
                 routes.MapRoute("default", "api/{controller}/{id?}");
                 routes.MapRoute("catchAll", "{*url}", defaults: new { controller = "Default", action = "Index" });
             });
-            //app.UseCors(builder =>
-            //    builder.AllowAnyHeader().AllowAnyOrigin().AllowAnyMethod());
         }
     }
 }

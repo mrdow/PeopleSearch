@@ -2,8 +2,8 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { Location } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 
-import { PersonService } from '../person.service';
-import { Person } from '../person';
+import { PersonService } from '../services/person.service';
+import { Person } from '../models/person';
 import { PersonFormComponent } from '../person-form/person-form.component';
 import { AddressFormComponent } from '../address-form/address-form.component';
 

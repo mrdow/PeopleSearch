@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 
-import { Interest } from '../interest';
+import { Interest } from '../models/interest';
 
 @Component({
   selector: 'app-interest-list',
@@ -10,12 +10,16 @@ import { Interest } from '../interest';
 export class InterestListComponent implements OnInit {
   @Input() interests: Interest[];
 
+  get filteredInterests(): Interest[] {
+    return this.interests.filter(i => !i.isDeleted);
+  }
+
   constructor() { }
 
   ngOnInit() {
   }
 
   delete(interest: Interest): void {
-    this.interests.splice(this.interests.indexOf(interest), 1);
+    interest.isDeleted = true;
   }
 }

@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 
-import { Interest } from '../interest';
+import { Interest } from '../models/interest';
 
 @Component({
   selector: 'app-interests-form',

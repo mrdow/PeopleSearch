@@ -2,8 +2,8 @@ import { Component, AfterViewChecked, Input, ViewChild, Output, EventEmitter } f
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { NgForm } from '@angular/forms';
 
-import { Person } from '../person';
-import { Image } from '../image';
+import { Person } from '../models/person';
+import { Image } from '../models/image';
 import { AddressFormComponent } from '../address-form/address-form.component';
 
 @Component({

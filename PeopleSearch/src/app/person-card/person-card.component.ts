@@ -1,8 +1,8 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { DomSanitizer, SafeResourceUrl, SafeUrl } from '@angular/platform-browser';
 
-import { StateCodes } from '../address';
-import { Person } from '../person';
+import { StateCodes } from '../models/address';
+import { Person } from '../models/person';
 
 @Component({
   selector: 'app-person-card',

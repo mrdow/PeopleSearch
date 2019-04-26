@@ -1,13 +1,15 @@
-﻿using Microsoft.AspNetCore;
+using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using PeopleSearch.Data;
 using System;
+using System.Diagnostics.CodeAnalysis;
+using PeopleSearch.API.DataAccess;
 
 namespace PeopleSearch
 {
+    [ExcludeFromCodeCoverage]
     public class Program
     {
         public static void Main(string[] args)

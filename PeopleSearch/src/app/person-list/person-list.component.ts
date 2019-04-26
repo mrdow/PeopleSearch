@@ -1,8 +1,8 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { faSpinner } from '@fortawesome/fontawesome-free';
 
-import { Person } from '../person';
-import { PersonService } from '../person.service';
+import { Person } from '../models/person';
+import { PersonService } from '../services/person.service';
 
 @Component({
   selector: 'app-person-list',

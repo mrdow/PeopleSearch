@@ -27,16 +27,16 @@
   </ItemGroup>
 
   <ItemGroup>
-    <TypeScriptCompile Include="src\app\address.ts" />
-    <TypeScriptCompile Include="src\app\image.ts" />
-    <TypeScriptCompile Include="src\app\interest.ts" />
+    <TypeScriptCompile Include="src\app\models\address.ts" />
+    <TypeScriptCompile Include="src\app\models\image.ts" />
+    <TypeScriptCompile Include="src\app\models\interest.ts" />
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="Images\AlexDow.jpg">
+    <None Update="API\Resources\AlexDow.jpg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="Images\ElvisPresley.jpg">
+    <None Update="API\Resources\ElvisPresley.jpg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
@@ -58,6 +58,8 @@
     <CallTarget Targets="EnsureAngularCli" />
     <Message Importance="high" Text="Install packages..." />
     <Exec Command="npm install" />
+    <Message Importance="high" Text="Rebuilding node-sass binding..." />
+    <Exec Command="npm rebuild node-sass" />
     <Message Importance="high" Text="Performing ng build..." />
     <Exec Command="npm run-script build-ahead" />
   </Target>

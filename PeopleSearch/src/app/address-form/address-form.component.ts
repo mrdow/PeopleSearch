@@ -1,7 +1,7 @@
 import { Component, AfterViewChecked, Input, ViewChild, Output, EventEmitter } from '@angular/core';
 import { NgForm } from '@angular/forms';
 
-import { Address, StateCodes } from '../address';
+import { Address, StateCodes } from '../models/address';
 
 @Component({
   selector: 'app-address-form',

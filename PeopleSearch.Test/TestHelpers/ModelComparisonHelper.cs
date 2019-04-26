@@ -1,9 +1,11 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using PeopleSearch.Models;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
+using PeopleSearch.API.Models;
 
 namespace PeopleSearch.Test.Helpers
 {
+    [ExcludeFromCodeCoverage]
     internal class ModelComparisonHelper
     {
         #region Helper Methods

@@ -5,7 +5,7 @@
   "Title": "People Search",
   "LatencySimulation": {
     "Enabled": true,
-    "MinDelayMS": 300,
-    "MaxDelayMS": 5000
+    "MinDelayMS": 100,
+    "MaxDelayMS": 2000
   }
 }
