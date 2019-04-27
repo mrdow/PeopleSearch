@@ -1,7 +1,10 @@
-import { Component, AfterViewChecked, Input, ViewChild, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, AfterViewChecked, Input, ViewChild, Output, EventEmitter } from '@angular/core';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { NgForm } from '@angular/forms';
+import { Location } from '@angular/common';
+import { ActivatedRoute } from '@angular/router';
 
+import { PersonService } from '../services/person.service';
 import { Person } from '../models/person';
 import { Image } from '../models/image';
 import { AddressFormComponent } from '../address-form/address-form.component';
@@ -11,35 +14,45 @@ import { AddressFormComponent } from '../address-form/address-form.component';
   templateUrl: './person-form.component.html',
   styleUrls: ['./person-form.component.scss']
 })
-export class PersonFormComponent implements AfterViewChecked {
+export class PersonFormComponent implements OnInit, AfterViewChecked {
   @ViewChild('personForm') public form: NgForm;
   @ViewChild('addressForm') public addressForm: AddressFormComponent;
 
-  @Output() onValidationChanged = new EventEmitter<boolean>();
-  @Input() imageUrl: string;
-  private _person: Person;
-  @Input('person')
-  set person(value: Person) {
-    this._person = value;
-    if (this.person && this.person.image) {
-      this.sanitize();
-    }
-  }
-  get person(): Person {
-    return this._person;
-  }
-
-  public isValid: boolean;
+  isValid: boolean;
+  person: Person
   safeUrl: SafeUrl;
   image: File;
+  isNew: boolean;
+  isSaving: boolean = false;
 
   constructor(
-    private sanitizer: DomSanitizer
+    private sanitizer: DomSanitizer,
+    private route: ActivatedRoute,
+    private personService: PersonService,
+    private location: Location
   ) { }
+
+  ngOnInit() {
+    this.getPerson()
+    this.sanitize();
+  }
 
   ngAfterViewChecked() {
     this.isValid = this.form.valid && this.addressForm.isValid;
-    this.onValidationChanged.emit(this.isValid);
+  }
+
+  getPerson(): void {
+    const id = +this.route.snapshot.paramMap.get('id');
+    if (id) {
+      this.personService.getPerson(id)
+        .subscribe(person => {
+          this.person = person;
+          this.sanitize();
+        });
+    }
+    else {
+      this.isNew = true;
+    }
   }
 
   processImage(imageInput: any) {
@@ -60,22 +73,6 @@ export class PersonFormComponent implements AfterViewChecked {
     fr.readAsDataURL(this.image);
   }
 
-  bufferToBase64(buf) {
-    var binstr = Array.prototype.map.call(buf, function (ch) {
-      return String.fromCharCode(ch);
-    }).join('');
-    return btoa(binstr);
-  }
-
-  base64ToBuffer(base64) {
-    var binstr = atob(base64);
-    var buf = new Uint8Array(binstr.length);
-    Array.prototype.forEach.call(binstr, function (ch, i) {
-      buf[i] = ch.charCodeAt(0);
-    });
-    return buf;
-  }
-
   sanitize() {
     if (this.person.image.file) {
       let unsafeUrl = `data:${this.person.image.contentType};base64,${this.person.image.file}`
@@ -83,7 +80,18 @@ export class PersonFormComponent implements AfterViewChecked {
     }
   }
 
-  processDate(event: any) {
-    this.person.deathDate = event.target.value;
+  save(): void {
+    if (this.isValid) {
+      this.isSaving = true;
+      this.personService.updatePerson(this.person)
+        .subscribe(
+          () => this.goBack(),
+          () => this.isSaving = false
+        );
+    }
+  }
+
+  goBack(): void {
+    this.location.back();
   }
 }

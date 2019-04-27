@@ -2,12 +2,12 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
 import { PeopleComponent } from './people/people.component';
-import { PersonDetailComponent } from './person-detail/person-detail.component';
+import { PersonFormComponent } from './person-form/person-form.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/people', pathMatch: 'full' },
-  { path: 'detail/:id', component: PersonDetailComponent },
-  { path: 'detail/new', component: PersonDetailComponent },
+  { path: 'people/:id', component: PersonFormComponent },
+  { path: 'people/new', component: PersonFormComponent },
   { path: 'people', component: PeopleComponent }
 ]
 

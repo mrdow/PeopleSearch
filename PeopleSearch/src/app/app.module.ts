@@ -9,7 +9,6 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { AppComponent } from './app.component';
 import { PeopleComponent } from './people/people.component';
-import { PersonDetailComponent } from './person-detail/person-detail.component';
 import { AppRoutingModule } from './app-routing.module';
 import { PersonSearchComponent } from './person-search/person-search.component';
 import { PersonFormComponent } from './person-form/person-form.component';
@@ -25,7 +24,6 @@ library.add(faSpinner);
   declarations: [
     AppComponent,
     PeopleComponent,
-    PersonDetailComponent,
     PersonSearchComponent,
     PersonFormComponent,
     PersonListComponent,

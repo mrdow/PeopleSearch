@@ -1,7 +1,7 @@
 <app-person-search #personSearch (onSearch)="personList.loading = true" (peopleFound)="personList.people = $event"></app-person-search>
 <div class="form-group row">
   <div class="button-container col-sm-2 d-flex justify-content-end">
-    <button class="btn btn-outline-primary " routerLink="/detail/new"  title="create person">+</button>
+    <button class="btn btn-outline-primary " routerLink="/people/new"  title="create person">+</button>
   </div>
   <div class="col-sm-10">
     <app-person-list #personList (onDelete)="personSearch.reload()"></app-person-list>
