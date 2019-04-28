@@ -1,4 +1,4 @@
-<form class="container" #personForm="ngForm" (ngSubmit)="save()">
+<form class="container overflow-hidden" #personForm="ngForm" (ngSubmit)="save()">
   <h1>{{(isNew && !person.FirstName && !person.LastName ? 'New Person' : person.firstName + ' ' + person.lastName)}}</h1>
 
   <div class="form-group">
