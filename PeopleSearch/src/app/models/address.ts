@@ -53,11 +53,10 @@ export enum StateCodes {
 }
 
 export class Address {
-  id: number;
-  personId: number;
-  address1: string;
-  address2: string;
-  city: string;
+  id: number = 0;
+  address1: string = '';
+  address2: string = '';
+  city: string = '';
   state: StateCodes;
-  zip: string;
+  zip: string = '';
 }

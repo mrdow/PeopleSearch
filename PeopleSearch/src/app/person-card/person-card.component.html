@@ -1,36 +1,43 @@
-<div class="d-flex flex-row">
-  <div class="col-md-3">
-    <img *ngIf="safeUrl" class="img-fluid img-thumbnail" id="image" [src]="safeUrl">
-  </div>
-  <div class="col-md-4" card-body>
-    <div class="d-flex flex-column">
-      <strong>{{person.firstName}} {{person.lastName}}</strong>
-      <address *ngIf="person.address">
-        {{person.address.address1}}
-        <br />
-        {{ person.address.address2 ? person.address.address2 : '' }}
-        <br *ngIf="person.address.address2" />
-        {{ person.address.city }}, {{ stateCodes[person.address.state] }} {{ person.address.zip }}
-      </address>
+<div class="btn-group w-100 d-flex">
+  <button class="btn btn-outline-secondary flex-grow-1 text-left" title="edit person" routerLink="/people/{{person.id}}">
+    <div class="d-flex flex-row">
+      <div class="col-md-3">
+        <img *ngIf="safeUrl" class="img-fluid img-thumbnail" id="image" [src]="safeUrl">
+      </div>
+      <div class="col-md-4" card-body>
+        <div class="d-flex flex-column">
+          <strong>{{person.firstName}} {{person.lastName}}</strong>
+          <address *ngIf="person.address">
+            {{person.address.address1}}
+            <br />
+            {{ person.address.address2 ? person.address.address2 : '' }}
+            <br *ngIf="person.address.address2" />
+            {{ person.address.city }}, {{ stateCodes[person.address.state] }} {{ person.address.zip }}
+          </address>
+        </div>
+        <div class="list-unstyled row">
+          <div class="col-md-6">
+            <strong>Born</strong> {{person.birthDate | date:'shortDate'}}
+          </div>
+          <div *ngIf="person.deathDate" class="col-md-6">
+            <strong>Died</strong> {{person.deathDate | date:'shortDate'}}
+          </div>
+          <div class="col-md-6">
+            <strong>Age</strong> {{getAge()}}
+          </div>
+        </div>
+      </div>
+      <div class="col-md-5" card-body>
+        <strong>Interests</strong>
+        <div class="list-unstyled row" *ngIf="person.interests">
+          <div *ngFor="let interest of person.interests" class="col-md-6">
+            <div>{{interest.name}}</div>
+          </div>
+        </div>
+      </div>
     </div>
-    <div class="list-unstyled row">
-      <div class="col-md-6">
-        <strong>Born</strong> {{person.birthDate | date:'shortDate'}}
-      </div>
-      <div *ngIf="person.deathDate" class="col-md-6">
-        <strong>Died</strong> {{person.deathDate | date:'shortDate'}}
-      </div>
-      <div class="col-md-6">
-        <strong>Age</strong> {{getAge()}}
-      </div>
-    </div>
-  </div>
-  <div class="col-md-5" card-body>
-    <strong>Interests</strong>
-    <div class="list-unstyled row" *ngIf="person.interests">
-      <div *ngFor="let interest of person.interests" class="col-md-6">
-        <div>{{interest.name}}</div>
-      </div>
-    </div>
-  </div>
+  </button>
+  <button class="btn btn-outline-danger right flex-grow-0" title="delete person" (click)="delete()">
+    x
+  </button>
 </div>

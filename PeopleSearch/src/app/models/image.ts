@@ -1,8 +1,6 @@
 export class Image {
-
-  id: number;
-  personId: number;
-  name: string;
-  file: string;
-  contentType: string;
+  id: number = 0;
+  name: string = '';
+  file: string = '';
+  contentType: string = '';
 }

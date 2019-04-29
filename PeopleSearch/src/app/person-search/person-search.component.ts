@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 
 import { Subject } from 'rxjs';
 
@@ -15,10 +15,10 @@ import { PersonService } from '../services/person.service';
   styleUrls: ['./person-search.component.scss']
 })
 export class PersonSearchComponent implements OnInit {
-  @Output() peopleFound = new EventEmitter<Person[]>();
-  @Output() onSearch = new EventEmitter();
+  @Output() searchComplete = new EventEmitter<Person[]>();
+  @Output() searchBegin = new EventEmitter();
 
-  @ViewChild('searchBox') searchBox: ElementRef;
+  searchText: string;
 
   private searchTerms = new Subject<string>();
 
@@ -31,19 +31,16 @@ export class PersonSearchComponent implements OnInit {
 
       // switch to new search observable each time the term changes
       switchMap((term: string) => this.personService.searchPeople(term)),
-    ).subscribe(people => this.peopleFound.emit(people));
+    ).subscribe(people => this.searchComplete.emit(people));
 
-    this.search('');
+    this.search();
 
   }
 
   // Push a search term into the observable stream.
-  search(term: string): void {
-    this.searchTerms.next(term);
-    this.onSearch.emit();
-  }
-
-  reload(): void {
-    this.search(this.searchBox.nativeElement.value);
+  search(): void {
+    var searchTerm = this.searchText ? this.searchText : '';
+    this.searchTerms.next(searchTerm);
+    this.searchBegin.emit();
   }
 }

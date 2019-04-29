@@ -1,5 +1,5 @@
-<form class="container overflow-hidden" #personForm="ngForm" (ngSubmit)="save()">
-  <h1>{{(isNew && !person.FirstName && !person.LastName ? 'New Person' : person.firstName + ' ' + person.lastName)}}</h1>
+<form *ngIf="personForm" [formGroup]="personForm" (ngSubmit)="save()" class="container overflow-hidden">
+  <h1>{{(!personForm.get('firstName').value && !personForm.get('lastName').value) ? 'New Person' : personForm.get('firstName').value + ' ' + personForm.get('lastName').value}}</h1>
 
   <div class="form-group">
     <div class="image-container col-sm-4">
@@ -7,24 +7,21 @@
     </div>
     <div class="input-group mb-3">
       <div class="input-group-prepend">
-        <span class="input-group-text">Choose an image</span>
+        <span for="image" class="input-group-text">Choose an image</span>
       </div>
       <div class="custom-file">
-        <input type="file" class="custom-file-input" id="imageInput" accept="image/*"
-               (change)="processImage(imageInput)" name="imageInput" #imageInput>
+        <input for="image" type="file" class="custom-file-input" accept="image/*" #imageInput (change)="processImage(imageInput)">
         <label class="custom-file-label" for="image">{{image ? image.name : 'Choose image'}}</label>
       </div>
     </div>
   </div>
 
   <div class="form-group row">
-    <label class="col-sm-2 col-form-label" for="firstName">First name</label>
+    <label for="firstName" class="col-sm-2 col-form-label">First name</label>
     <div class="col-sm-10">
-      <input type="text" class="form-control" id="firstName"
-             required maxlength="50"
-             [(ngModel)]="person.firstName" name="firstName" #firstName="ngModel">
+      <input formControlName="firstName" type="text" class="form-control" required maxlength="50">
 
-      <div *ngIf="firstName.invalid && (firstName.dirty || firstName.touched)"
+      <div *ngIf="firstName.invalid && !firstName.pristine"
            class="alert alert-danger">
         <div *ngIf="firstName.errors.required">
           First name is required.
@@ -33,17 +30,16 @@
           First name must be no more than 50 characters long.
         </div>
       </div>
+
     </div>
   </div>
 
   <div class="form-group row">
-    <label class="col-sm-2 col-form-label" for="lastName">Last name</label>
+    <label for="lastName" class="col-sm-2 col-form-label">Last name</label>
     <div class="col-sm-10">
-      <input type="text" class="form-control" id="lastName"
-             required maxlength="50"
-             [(ngModel)]="person.lastName" name="lastName" #lastName="ngModel">
+      <input formControlName="lastName" type="text" class="form-control" required maxlength="50">
 
-      <div *ngIf="lastName.invalid && (lastName.dirty || lastName.touched)"
+      <div *ngIf="lastName.invalid && !lastName.pristine"
            class="alert alert-danger">
         <div *ngIf="lastName.errors.required">
           Last name is required.
@@ -57,13 +53,11 @@
   </div>
 
   <div class="form-group row">
-    <label class="col-sm-2 col-form-label" for="birthDate">Birth date</label>
+    <label for="birthDate" class="col-sm-2 col-form-label">Birth date</label>
     <div class="col-sm-10">
-      <input type="date" class="form-control date-picker" id="birthDate"
-             required
-             [ngModel]="person.birthDate | date:'yyyy-MM-dd'" (ngModelChanged)="person.birthDate = $event" name="birthDate" #birthDate="ngModel">
+      <input formControlName="birthDate" type="date" class="form-control date-picker" [value]="personForm.get('birthDate').value | date:'yyyy-MM-dd'" required>
 
-      <div *ngIf="birthDate.invalid && (birthDate.dirty || birthDate.touched)"
+      <div *ngIf="birthDate.invalid && !birthDate.pristine"
            class="alert alert-danger">
         <div *ngIf="birthDate.errors.required">
           Birth date is required.
@@ -76,32 +70,25 @@
   <div class="form-group row">
     <label class="col-sm-2 col-form-label" for="deathDate">Death date</label>
     <div class="col-sm-10">
-      <input type="date" class="form-control date-picker" id="deathDate"
-             [ngModel]="person.deathDate | date:'yyyy-MM-dd'" (ngModelChanged)="person.deathDate = $event" name="deathDate" #deathDate="ngModel">
-
-      <div *ngIf="lastName.invalid && (lastName.dirty || lastName.touched)"
-           class="alert alert-danger">
-      </div>
-
+      <input formControlName="deathDate" type="date" class="form-control date-picker" [value]="personForm.get('deathDate').value | date:'yyyy-MM-dd'">
     </div>
   </div>
 
   <div class="form-group">
     <h2 for="Address">Address</h2>
-    <app-address-form [address]="person.address" (onValidationChanged)="onValidationChanged.emit($event)" #addressForm></app-address-form>
+    <app-address-form [nestableForm]="personForm" [address]="person.address" #addressForm></app-address-form>
   </div>
   <div class="form-group">
     <h2 for="interests">Interests</h2>
-    <app-interests-form [interests]="person.interests"></app-interests-form>
+    <app-interests-form [nestableForm]="personForm" [interests]="person.interests"></app-interests-form>
   </div>
 
   <div class="btn-group float-right">
-    <button class="btn btn-outline-primary" type="submit" title="save person" [disabled]="!isValid" *ngIf="!isSaving">
+    <button class="btn btn-outline-primary" type="submit" title="save person" [disabled]="!personForm.valid" *ngIf="!isSaving">
       Save
-    </button>
-    <button type="submit" class="btn btn-outline-primary" title="saving..." [disabled]="isSaving" *ngIf="isSaving">
-      <i class="fas fa-spinner fa-spin"></i>
     </button>
     <button class="btn btn-outline-secondary" title="go back" (click)="goBack()">{{(isNew ? 'Cancel' : 'Go Back')}}</button>
   </div>
+
+  {{errors}}
 </form>

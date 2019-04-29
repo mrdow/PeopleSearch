@@ -1,4 +1,5 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, Input } from '@angular/core';
+import { FormArray, FormBuilder } from '@angular/forms';
 
 import { Interest } from '../models/interest';
 
@@ -7,19 +8,18 @@ import { Interest } from '../models/interest';
   templateUrl: './interest-list.component.html',
   styleUrls: ['./interest-list.component.scss']
 })
-export class InterestListComponent implements OnInit {
-  @Input() interests: Interest[];
+export class InterestListComponent {
+  @Input() interestForms: FormArray;
 
   get filteredInterests(): Interest[] {
-    return this.interests.filter(i => !i.isDeleted);
+    return this.interestForms.value.filter(i => !i.isDeleted);
   }
 
-  constructor() { }
-
-  ngOnInit() {
-  }
+  constructor(private formBuilder: FormBuilder) { }
 
   delete(interest: Interest): void {
-    interest.isDeleted = true;
+    var currentInterests = this.interestForms.value;
+    currentInterests.find(i => i.id === interest.id).isDeleted = true;
+    this.interestForms = this.formBuilder.array(currentInterests);
   }
 }

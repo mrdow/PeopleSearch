@@ -20,6 +20,7 @@ namespace PeopleSearch.API.Models
         /// <summary>
         /// Foreign key to the Person table.
         /// </summary>
+        [IgnoreDataMember]
         [ForeignKey("Person")]
         public long PersonId { get; set; }
 

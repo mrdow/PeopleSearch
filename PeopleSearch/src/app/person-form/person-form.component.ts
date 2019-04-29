@@ -1,89 +1,80 @@
-import { Component, OnInit, AfterViewChecked, Input, ViewChild, Output, EventEmitter } from '@angular/core';
-import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
-import { NgForm } from '@angular/forms';
-import { Location } from '@angular/common';
-import { ActivatedRoute } from '@angular/router';
+import { Component, OnInit } from '@angular/core';
+import { SafeUrl } from '@angular/platform-browser';
+import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
 
 import { PersonService } from '../services/person.service';
 import { Person } from '../models/person';
-import { Image } from '../models/image';
-import { AddressFormComponent } from '../address-form/address-form.component';
+import { ImageService } from '../services/image.service';
+import { FormValidationService } from '../services/form-validation.service';
 
 @Component({
   selector: 'app-person-form',
   templateUrl: './person-form.component.html',
   styleUrls: ['./person-form.component.scss']
 })
-export class PersonFormComponent implements OnInit, AfterViewChecked {
-  @ViewChild('personForm') public form: NgForm;
-  @ViewChild('addressForm') public addressForm: AddressFormComponent;
+export class PersonFormComponent implements OnInit {
+  person: Person = new Person();
+  personForm: FormGroup;
 
-  isValid: boolean;
-  person: Person
   safeUrl: SafeUrl;
-  image: File;
-  isNew: boolean;
   isSaving: boolean = false;
 
   constructor(
-    private sanitizer: DomSanitizer,
     private route: ActivatedRoute,
+    private router: Router,
+    private formBuilder: FormBuilder,
     private personService: PersonService,
-    private location: Location
+    private imageService: ImageService,
+    private formValidationService: FormValidationService
   ) { }
 
   ngOnInit() {
-    this.getPerson()
-    this.sanitize();
-  }
-
-  ngAfterViewChecked() {
-    this.isValid = this.form.valid && this.addressForm.isValid;
-  }
-
-  getPerson(): void {
-    const id = +this.route.snapshot.paramMap.get('id');
+    const id = +(this.route.snapshot.paramMap.get('id')); // + will convert to number
     if (id) {
       this.personService.getPerson(id)
         .subscribe(person => {
           this.person = person;
-          this.sanitize();
+          this.initializeForm();
+          if (this.person.image) {
+            this.safeUrl = this.imageService.sanitize(this.person.image);
+          }
         });
-    }
-    else {
-      this.isNew = true;
+    } else {
+      this.person = new Person();
+      this.initializeForm();
     }
   }
 
-  processImage(imageInput: any) {
-    this.image = imageInput.files[0];
-
-    var fr = new FileReader();
-    fr.onload = () => {
-      if (!this.person.image) {
-        this.person.image = new Image();
-      }
-      let dataUrl = fr.result.toString();
-      let base64String = dataUrl.substr(dataUrl.indexOf(",") + 1);
-      this.person.image.file = base64String;
-      this.person.image.contentType = this.image.type;
-      this.person.image.name = this.image.name;
-      this.sanitize();
-    }
-    fr.readAsDataURL(this.image);
+  initializeForm(): any {
+    this.personForm = this.formBuilder.group({
+      id: [this.person.id],
+      image: [this.person.image],
+      firstName: [this.person.firstName, Validators.compose([Validators.required, Validators.maxLength(50)])],
+      lastName: [this.person.lastName, Validators.compose([Validators.required, Validators.maxLength(50)])],
+      birthDate: [this.person.birthDate, Validators.required],
+      deathDate: [this.person.deathDate]
+    });
   }
 
-  sanitize() {
-    if (this.person.image.file) {
-      let unsafeUrl = `data:${this.person.image.contentType};base64,${this.person.image.file}`
-      this.safeUrl = this.sanitizer.bypassSecurityTrustUrl(unsafeUrl);
+  processImage(imageInput: HTMLInputElement) {
+    const image = imageInput.files[0];
+
+    if (image) {
+      this.imageService.processImage(image).subscribe(i => {
+        if (this.person.image) {
+          i.id = this.person.image.id;
+        }
+        this.personForm.setControl('image', new FormControl(i));
+        this.safeUrl = this.imageService.sanitize(i);
+      })
     }
   }
 
   save(): void {
-    if (this.isValid) {
+    if (this.personForm.valid) {
       this.isSaving = true;
-      this.personService.updatePerson(this.person)
+      this.personService.updatePerson(this.personForm.value)
         .subscribe(
           () => this.goBack(),
           () => this.isSaving = false
@@ -92,6 +83,14 @@ export class PersonFormComponent implements OnInit, AfterViewChecked {
   }
 
   goBack(): void {
-    this.location.back();
+    this.router.navigateByUrl('people');
   }
+
+  get errors() {
+    return JSON.stringify(this.formValidationService.getAllErrors(this.personForm));
+  }
+
+  get firstName() { return this.personForm.get('firstName'); }
+  get lastName() { return this.personForm.get('lastName'); }
+  get birthDate() { return this.personForm.get('birthDate'); }
 }

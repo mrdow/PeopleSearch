@@ -1,13 +1,11 @@
-<form class="container" #addressForm="ngForm">
+<form *ngIf="addressForm" [formGroup]="addressForm" class="container">
 
   <div class="form-group row">
-    <label class="col-sm-2 col-form-label" for="address1">Address 1</label>
+    <label for="address1" class="col-sm-2 col-form-label">Address 1</label>
     <div class="col-sm-10">
-      <input type="text" class="form-control" id="address1"
-             required maxlength="100"
-             [(ngModel)]="address.address1" name="address1" #address1="ngModel">
+      <input formControlName="address1" type="text" class="form-control" required maxlength="100">
 
-      <div *ngIf="address1.invalid && (address1.dirty || address1.touched)"
+      <div *ngIf="address1.invalid && !address1.pristine"
            class="alert alert-danger">
         <div *ngIf="address1.errors.required">
           Address 1 is required.
@@ -21,13 +19,11 @@
   </div>
 
   <div class="form-group row">
-    <label class="col-sm-2 col-form-label" for="address2">Address 2</label>
+    <label for="address2" class="col-sm-2 col-form-label">Address 2</label>
     <div class="col-sm-10">
-      <input type="text" class="form-control" id="address2"
-             maxlength="100"
-             [(ngModel)]="address.address2" name="address2" #address2="ngModel">
+      <input formControlName="address2" type="text" class="form-control" maxlength="100">
 
-      <div *ngIf="address2.invalid && (address2.dirty || address2.touched)"
+      <div *ngIf="address2.invalid && !address2.pristine"
            class="alert alert-danger">
         <div *ngIf="address2.errors.maxLength">
           Adress 2 must be no more than 100 characters long.
@@ -38,13 +34,11 @@
   </div>
 
   <div class="form-group row">
-    <label class="col-sm-2 col-form-label" for="city">City</label>
+    <label for="city" class="col-sm-2 col-form-label">City</label>
     <div class="col-sm-10">
-      <input type="text" class="form-control" id="city"
-             required maxlength="50"
-             [(ngModel)]="address.city" name="city" #city="ngModel">
+      <input formControlName="city" type="text" class="form-control" required maxlength="50">
 
-      <div *ngIf="city.invalid && (city.dirty || city.touched)"
+      <div *ngIf="city.invalid && !city.pristine"
            class="alert alert-danger">
         <div *ngIf="city.errors.required">
           City is required.
@@ -58,15 +52,13 @@
   </div>
 
   <div class="form-group row">
-    <label class="col-sm-2 col-form-label" for="state">State</label>
+    <label for="state" class="col-sm-2 col-form-label">State</label>
     <div class="col-sm-10">
-      <select name="state" class="form-control" id="state"
-              required
-              [(ngModel)]="address.state" name="state" #state="ngModel">
+      <select formControlName="state" name="state" class="form-control" required>
         <option *ngFor="let state of stateCodeKeys()" [value]="stateCodes[state]">{{state}}</option>
       </select>
 
-      <div *ngIf="state.invalid && (state.dirty || state.touched)"
+      <div *ngIf="state.invalid && !state.pristine"
            class="alert alert-danger">
         <div *ngIf="state.errors.required">
           State is required.
@@ -77,13 +69,11 @@
   </div>
 
   <div class="form-group row">
-    <label class="col-sm-2 col-form-label" for="zip">Zip</label>
+    <label for="zip" class="col-sm-2 col-form-label">Zip</label>
     <div class="col-sm-10">
-      <input type="text" class="form-control" id="zip"
-             required pattern="(\d{5}([\-]\d{4})?)"
-             [(ngModel)]="address.zip" name="zip" #zip="ngModel">
+      <input formControlName="zip" type="text" class="form-control" required pattern="\d{5}([\-]\d{4})?">
 
-      <div *ngIf="zip.invalid && (zip.dirty || zip.touched)"
+      <div *ngIf="zip.invalid && !zip.pristine"
            class="alert alert-danger">
         <div *ngIf="zip.errors.required">
           Zip is required.

@@ -1,8 +1,10 @@
-import { Component, OnInit, Input } from '@angular/core';
-import { DomSanitizer, SafeResourceUrl, SafeUrl } from '@angular/platform-browser';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 
+import { PersonService } from '../services/person.service';
 import { StateCodes } from '../models/address';
 import { Person } from '../models/person';
+import { ImageService } from '../services/image.service';
 
 @Component({
   selector: 'app-person-card',
@@ -11,20 +13,21 @@ import { Person } from '../models/person';
 })
 export class PersonCardComponent implements OnInit {
   @Input() person: Person;
-
-  srcData: SafeResourceUrl;
-  safeUrl: SafeUrl;
+  @Output() onDeleted = new EventEmitter<Person>();
 
   stateCodes = StateCodes;
 
+  safeUrl: SafeUrl;
+
   constructor(
-    private sanitizer: DomSanitizer
+    private sanitizer: DomSanitizer,
+    private personService: PersonService,
+    private imageService: ImageService
   ) { }
 
   ngOnInit() {
     if (this.person.image) {
-      let unsafeUrl = `data:${this.person.image.contentType};base64,${this.person.image.file}`
-      this.safeUrl = this.sanitizer.bypassSecurityTrustUrl(unsafeUrl);
+      this.safeUrl = this.imageService.sanitize(this.person.image);
     }
   }
 
@@ -38,5 +41,10 @@ export class PersonCardComponent implements OnInit {
 
   stateCodeKeys(): string[] {
     return Object.keys(StateCodes);
+  }
+
+  delete(): void {
+    this.personService.deletePerson(this.person).subscribe();
+    this.onDeleted.emit(this.person);
   }
 }

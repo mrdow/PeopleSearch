@@ -41,7 +41,7 @@ namespace PeopleSearch.API.DataAccess
                 return;
             }
             
-            string imagePath = $"{_env.ContentRootPath}/Resources/AlexDow.jpg";
+            string imagePath = $"{_env.ContentRootPath}/API/Resources/AlexDow.jpg";
             byte[] imageBytes = File.ReadAllBytes(imagePath);
             string base64String = Convert.ToBase64String(imageBytes);
 
@@ -51,7 +51,7 @@ namespace PeopleSearch.API.DataAccess
                     File = Convert.FromBase64String(base64String),
                     ContentType = $"img/{Path.GetExtension(imagePath).Replace(".", "")}"
                 };
-            imagePath = $"{_env.ContentRootPath}/Resources/ElvisPresley.jpg";
+            imagePath = $"{_env.ContentRootPath}/API/Resources/ElvisPresley.jpg";
             imageBytes = File.ReadAllBytes(imagePath);
             base64String = Convert.ToBase64String(imageBytes);
             Image image2 = new Image

@@ -2,8 +2,7 @@
   <div class="form-group row">
     <label class="col-sm-2 col-form-label" for="name">Search by Name</label>
     <div class="col-sm-10">
-      <input #searchBox type="text" class="form-control" id="name" name="name"
-             (keyup)="search(searchBox.value)">
+      <input [ngModel]="searchText" type="text" class="form-control" (keyup)="search()">
     </div>
   </div>
 </div>
