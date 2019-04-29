@@ -32,9 +32,9 @@ export class PersonCardComponent implements OnInit {
   }
 
   getAge() {
-    var endDate = this.person.deathDate ? Date.parse(this.person.deathDate) : Date.now();
-    var startDate = Date.parse(this.person.birthDate);
-    var ageDifMs = endDate - startDate;
+    var endDate = this.person.deathDateAsDate() || new Date(Date.now());
+    var startDate = this.person.birthDateAsDate();
+    var ageDifMs = endDate.getTime() - startDate.getTime();
     var ageDate = new Date(ageDifMs); // miliseconds from epoch
     return Math.abs(ageDate.getUTCFullYear() - 1970);
   }

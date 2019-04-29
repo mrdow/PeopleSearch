@@ -71,6 +71,14 @@
     <label class="col-sm-2 col-form-label" for="deathDate">Death date</label>
     <div class="col-sm-10">
       <input formControlName="deathDate" type="date" class="form-control date-picker" [value]="personForm.get('deathDate').value | date:'yyyy-MM-dd'">
+
+      <div *ngIf="personForm.invalid && !personForm.pristine && personForm.errors.deathDate"
+           class="alert alert-danger">
+        <div>
+          Death date must be later than birth date.
+        </div>
+      </div>
+
     </div>
   </div>
 

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { catchError, map, tap } from 'rxjs/operators';
+import { catchError, map } from 'rxjs/operators';
 
 import { Person } from '../models/person';
 
@@ -21,6 +21,10 @@ export class PersonService {
   /** GET all people from the server */
   getPeople(): Observable<Person[]> {
     return this.http.get<Person[]>(this.peopleUrl)
+      .pipe(map(response => {
+        const people = response.map(data => new Person(data));
+        return people;
+      }))
       .pipe(
         catchError(this.handleError('getPeople', []))
       );
@@ -34,6 +38,10 @@ export class PersonService {
     const url = `${this.peopleUrl}/?searchString=${searchString}`;
 
     return this.http.get<Person[]>(url)
+      .pipe(map(response => {
+        const people = response.map(data => new Person(data));
+        return people;
+      }))
       .pipe(
         catchError(this.handleError('searchPeople', []))
       );
@@ -47,6 +55,7 @@ export class PersonService {
     const url = `${this.peopleUrl}/${id}`;
 
     return this.http.get<Person>(url)
+      .pipe(map(response => new Person(response)))
       .pipe(
         catchError(this.handleError<Person>(`getPerson id=${id}`))
       );
@@ -83,6 +92,7 @@ export class PersonService {
   addPerson(person: Person): Observable<Person> {
 
     return this.http.post<Person>(this.peopleUrl, person, httpOptions)
+      .pipe(map(response => new Person(response)))
       .pipe(
         catchError(this.handleError<Person>('addPerson'))
       );

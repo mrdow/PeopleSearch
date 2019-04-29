@@ -7,6 +7,7 @@ import { PersonService } from '../services/person.service';
 import { Person } from '../models/person';
 import { ImageService } from '../services/image.service';
 import { FormValidationService } from '../services/form-validation.service';
+import { DeathDateValidator } from '../shared/death-date-validator.directive';
 
 @Component({
   selector: 'app-person-form',
@@ -14,7 +15,7 @@ import { FormValidationService } from '../services/form-validation.service';
   styleUrls: ['./person-form.component.scss']
 })
 export class PersonFormComponent implements OnInit {
-  person: Person = new Person();
+  person: Person = new Person({});
   personForm: FormGroup;
 
   safeUrl: SafeUrl;
@@ -52,9 +53,10 @@ export class PersonFormComponent implements OnInit {
       image: [this.person.image],
       firstName: [this.person.firstName, Validators.compose([Validators.required, Validators.maxLength(50)])],
       lastName: [this.person.lastName, Validators.compose([Validators.required, Validators.maxLength(50)])],
-      birthDate: [this.person.birthDate, Validators.required],
-      deathDate: [this.person.deathDate]
-    });
+      birthDate: [this.person.birthDateAsDate(), Validators.required],
+      deathDate: [this.person.deathDateAsDate()]
+    },
+      { validators: DeathDateValidator });
   }
 
   processImage(imageInput: HTMLInputElement) {
@@ -87,7 +89,7 @@ export class PersonFormComponent implements OnInit {
   }
 
   get errors() {
-    return JSON.stringify(this.formValidationService.getAllErrors(this.personForm));
+    return JSON.stringify(this.formValidationService.getAllErrors('person', this.personForm));
   }
 
   get firstName() { return this.personForm.get('firstName'); }
