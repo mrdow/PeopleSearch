@@ -12,7 +12,7 @@ This project requires the Node.js package manager for managing front-end depende
 
 ## 2. Installing Dependencies
 
-The Environment Setup Solution Folder contains a [SetupEnvironment.cmd](./SetupEnvironment.cmd) file to install the necessary dependencies and configure the environment to run the application. This command MUST be run before starting the project.
+The **Start Here** Solution Folder contains a [SetupEnvironment.cmd](./SetupEnvironment.cmd) file to install the necessary dependencies and configure the environment to run the application. This command MUST be run before starting the project.
 
 ## 3. Running the application
 
