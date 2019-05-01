@@ -154,7 +154,7 @@ namespace PeopleSearch.Test.API.Controllers
             PeopleController controller = new PeopleController(mockPersonRepository.Object);
 
             // Act
-            IList<Person> actual = (await controller.GetAsync("someString")).Value.ToList();
+            List<Person> actual = (await controller.GetAsync("someString")).Value.ToList();
 
             // Assert
             ModelComparisonHelper.AssertPersonListsAreEqual(expected, actual);

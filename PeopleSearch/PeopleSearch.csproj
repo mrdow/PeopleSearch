@@ -65,7 +65,9 @@
   <Target Name="ReleaseRunNgBuild" BeforeTargets="Build">
     <CallTarget Targets="EnsureNode" />
     <CallTarget Targets="EnsureAngularCli" />
-    <Message Importance="high" Text="Install packages..." />
+    <Message Importance="high" Text="Restoring nuget packages..." />
+    <Exec Command="dotnet restore" />
+    <Message Importance="high" Text="Installing npm packages..." />
     <Exec Command="npm install" />
     <Message Importance="high" Text="Rebuilding node-sass binding..." />
     <Exec Command="npm rebuild node-sass" />
