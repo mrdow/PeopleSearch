@@ -1,9 +1,9 @@
 <!--<div class="container">-->
-<div class="interest-group d-flex flex-row">
+<div id="interest-list" class="interest-group d-flex flex-wrap">
   <div *ngFor="let interest of filteredInterests"
        class="interest card d-flex flex-row">
-    <div class="card-body">{{interest.name}}</div>
-    <button class="btn btn-outline-danger" type="button"
+    <div id="interest" class="card-body">{{interest.name}}</div>
+    <button id="delete-interest" class="btn btn-outline-danger" type="button"
             (click)="delete(interest)">
       x
     </button>

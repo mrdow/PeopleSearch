@@ -1,8 +1,8 @@
-<div class="list-group d-flex justify-content-center">
+<div id="person-list" class="list-group d-flex justify-content-center">
   <div class="fa-3x d-flex justify-content-center" *ngIf="isLoading; else peopleList">
-    <i class="fas fa-spinner fa-spin"></i>
+    <i id="spinner" class="fas fa-spinner fa-spin"></i>
   </div>
   <ng-template #peopleList>
-    <app-person-card *ngFor="let person of people" [person]="person" class="flex-grow-1"></app-person-card>
+    <app-person-card *ngFor="let person of people" [person]="person" (deleted)="onDeleted($event)" class="flex-grow-1"></app-person-card>
   </ng-template>
 </div>

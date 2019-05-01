@@ -8,6 +8,7 @@ import { Person } from '../models/person';
 import { ImageService } from '../services/image.service';
 import { FormValidationService } from '../services/form-validation.service';
 import { DeathDateValidator } from '../shared/death-date-validator.directive';
+import { formatDate } from '@angular/common';
 
 @Component({
   selector: 'app-person-form',
@@ -53,8 +54,8 @@ export class PersonFormComponent implements OnInit {
       image: [this.person.image],
       firstName: [this.person.firstName, Validators.compose([Validators.required, Validators.maxLength(50)])],
       lastName: [this.person.lastName, Validators.compose([Validators.required, Validators.maxLength(50)])],
-      birthDate: [this.person.birthDateAsDate(), Validators.required],
-      deathDate: [this.person.deathDateAsDate()]
+      birthDate: [this.person.birthDate && formatDate(this.person.birthDate, 'yyyy-MM-dd', 'en'), Validators.required],
+      deathDate: [this.person.deathDate && formatDate(this.person.deathDate, 'yyyy-MM-dd', 'en')]
     },
       { validators: DeathDateValidator });
   }
@@ -95,4 +96,5 @@ export class PersonFormComponent implements OnInit {
   get firstName() { return this.personForm.get('firstName'); }
   get lastName() { return this.personForm.get('lastName'); }
   get birthDate() { return this.personForm.get('birthDate'); }
+  get deathDate() { return this.personForm.get('deathDate'); }
 }

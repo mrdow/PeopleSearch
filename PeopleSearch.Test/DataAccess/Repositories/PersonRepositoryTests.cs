@@ -26,10 +26,10 @@ namespace PeopleSearch.Test.DataAccess.Repositories
             {
                 PersonRepository repository = new PersonRepository(testContext);
 
-                IList<Person> expected = new List<Person>();
+                List<Person> expected = new List<Person>();
 
                 // Act
-                IList<Person> actual = await repository.AllPeopleAsync();
+                List<Person> actual = (await repository.AllPeopleAsync()).ToList();
 
                 // Assert
                 ModelComparisonHelper.AssertPersonListsAreEqual(expected, actual);
@@ -43,7 +43,7 @@ namespace PeopleSearch.Test.DataAccess.Repositories
             using (PeopleSearchDbContext testContext = GetTestContext())
             {
                 Person added = TestData.TestPerson1();
-                IList<Person> expected = new List<Person> { added };
+                List<Person> expected = new List<Person> { added };
 
                 testContext.People.Add(added);
                 await testContext.SaveChangesAsync();
@@ -51,7 +51,7 @@ namespace PeopleSearch.Test.DataAccess.Repositories
                 PersonRepository repository = new PersonRepository(testContext);
 
                 // Act
-                IList<Person> actual = await repository.SearchPeopleAsync(null);
+                List<Person> actual = (await repository.SearchPeopleAsync(null)).ToList();
 
                 // Assert
                 ModelComparisonHelper.AssertPersonListsAreEqual(expected, actual);
@@ -70,10 +70,10 @@ namespace PeopleSearch.Test.DataAccess.Repositories
             {
                 PersonRepository repository = new PersonRepository(testContext);
 
-                IList<Person> expected = new List<Person>();
+                List<Person> expected = new List<Person>();
 
                 // Act
-                IList<Person> actual = await repository.SearchPeopleAsync(null);
+                List<Person> actual = (await repository.SearchPeopleAsync(null)).ToList();
 
                 // Assert
                 ModelComparisonHelper.AssertPersonListsAreEqual(expected, actual);
@@ -87,7 +87,7 @@ namespace PeopleSearch.Test.DataAccess.Repositories
             using (PeopleSearchDbContext testContext = GetTestContext())
             {
                 Person added = TestData.TestPerson1();
-                IList<Person> expected = new List<Person> { added };
+                List<Person> expected = new List<Person> { added };
 
                 testContext.People.Add(added);
                 await testContext.SaveChangesAsync();
@@ -95,7 +95,7 @@ namespace PeopleSearch.Test.DataAccess.Repositories
                 PersonRepository repository = new PersonRepository(testContext);
 
                 // Act
-                IList<Person> actual = await repository.SearchPeopleAsync(null);
+                List<Person> actual = (await repository.SearchPeopleAsync(null)).ToList();
 
                 // Assert
                 ModelComparisonHelper.AssertPersonListsAreEqual(expected, actual);
@@ -110,7 +110,7 @@ namespace PeopleSearch.Test.DataAccess.Repositories
             {
                 Person added1 = TestData.TestPerson1();
                 Person added2 = TestData.TestPerson2();
-                IList<Person> expected = new List<Person> { added1, added2 };
+                List<Person> expected = new List<Person> { added1, added2 };
 
                 testContext.People.Add(added1);
                 testContext.People.Add(added2);
@@ -119,10 +119,10 @@ namespace PeopleSearch.Test.DataAccess.Repositories
                 PersonRepository repository = new PersonRepository(testContext);
 
                 // Act
-                IList<Person> actual = await repository.AllPeopleAsync();
+                List<Person> actual = (await repository.AllPeopleAsync()).ToList();
 
                 // Assert
-                IList<Person> actualSorted = actual.OrderBy(p => p.Id).ToList();
+                List<Person> actualSorted = actual.OrderBy(p => p.Id).ToList();
                 ModelComparisonHelper.AssertPersonListsAreEqual(expected, actualSorted);
             }
         }
@@ -134,7 +134,7 @@ namespace PeopleSearch.Test.DataAccess.Repositories
             using (PeopleSearchDbContext testContext = GetTestContext())
             {
                 Person added = TestData.TestPerson1();
-                IList<Person> expected = new List<Person> { added };
+                List<Person> expected = new List<Person> { added };
 
                 testContext.People.Add(added);
                 await testContext.SaveChangesAsync();
@@ -142,7 +142,7 @@ namespace PeopleSearch.Test.DataAccess.Repositories
                 PersonRepository repository = new PersonRepository(testContext);
 
                 // Act
-                IList<Person> actual = await repository.SearchPeopleAsync(added.FirstName);
+                List<Person> actual = (await repository.SearchPeopleAsync(added.FirstName)).ToList();
 
                 // Assert
                 ModelComparisonHelper.AssertPersonListsAreEqual(expected, actual);
@@ -156,7 +156,7 @@ namespace PeopleSearch.Test.DataAccess.Repositories
             using (PeopleSearchDbContext testContext = GetTestContext())
             {
                 Person added = TestData.TestPerson1();
-                IList<Person> expected = new List<Person> { added };
+                List<Person> expected = new List<Person> { added };
 
                 testContext.People.Add(added);
                 await testContext.SaveChangesAsync();
@@ -164,7 +164,7 @@ namespace PeopleSearch.Test.DataAccess.Repositories
                 PersonRepository repository = new PersonRepository(testContext);
 
                 // Act
-                IList<Person> actual = await repository.SearchPeopleAsync(added.LastName);
+                List<Person> actual = (await repository.SearchPeopleAsync(added.LastName)).ToList();
 
                 // Assert
                 ModelComparisonHelper.AssertPersonListsAreEqual(expected, actual);
@@ -178,7 +178,7 @@ namespace PeopleSearch.Test.DataAccess.Repositories
             using (PeopleSearchDbContext testContext = GetTestContext())
             {
                 Person added = TestData.TestPerson1();
-                IList<Person> expected = new List<Person> { added };
+                List<Person> expected = new List<Person> { added };
 
                 testContext.People.Add(added);
                 await testContext.SaveChangesAsync();
@@ -186,7 +186,7 @@ namespace PeopleSearch.Test.DataAccess.Repositories
                 PersonRepository repository = new PersonRepository(testContext);
 
                 // Act
-                IList<Person> actual = await repository.SearchPeopleAsync(added.FirstName.ToUpper());
+                List<Person> actual = (await repository.SearchPeopleAsync(added.FirstName.ToUpper())).ToList();
 
                 // Assert
                 ModelComparisonHelper.AssertPersonListsAreEqual(expected, actual);
@@ -201,7 +201,7 @@ namespace PeopleSearch.Test.DataAccess.Repositories
             {
                 Person added1 = TestData.TestPerson1();
                 Person added2 = TestData.TestPerson2();
-                IList<Person> expected = new List<Person> { added1 };
+                List<Person> expected = new List<Person> { added1 };
 
                 testContext.People.Add(added1);
                 testContext.People.Add(added2);
@@ -210,10 +210,10 @@ namespace PeopleSearch.Test.DataAccess.Repositories
                 PersonRepository repository = new PersonRepository(testContext);
 
                 // Act
-                IList<Person> actual = await repository.SearchPeopleAsync("x");
+                List<Person> actual = (await repository.SearchPeopleAsync("x")).ToList();
 
                 // Assert
-                IList<Person> actualSorted = actual.OrderBy(p => p.Id).ToList();
+                List<Person> actualSorted = actual.OrderBy(p => p.Id).ToList();
                 ModelComparisonHelper.AssertPersonListsAreEqual(expected, actualSorted);
             }
         }
@@ -226,7 +226,7 @@ namespace PeopleSearch.Test.DataAccess.Repositories
             {
                 Person added1 = TestData.TestPerson1();
                 Person added2 = TestData.TestPerson2();
-                IList<Person> expected = new List<Person> { added1, added2 };
+                List<Person> expected = new List<Person> { added1, added2 };
 
                 testContext.People.Add(added1);
                 testContext.People.Add(added2);
@@ -235,10 +235,10 @@ namespace PeopleSearch.Test.DataAccess.Repositories
                 PersonRepository repository = new PersonRepository(testContext);
 
                 // Act
-                IList<Person> actual = await repository.SearchPeopleAsync("e");
+                List<Person> actual = (await repository.SearchPeopleAsync("e")).ToList();
 
                 // Assert
-                IList<Person> actualSorted = actual.OrderBy(p => p.Id).ToList();
+                List<Person> actualSorted = actual.OrderBy(p => p.Id).ToList();
                 ModelComparisonHelper.AssertPersonListsAreEqual(expected, actualSorted);
             }
         }
@@ -249,7 +249,7 @@ namespace PeopleSearch.Test.DataAccess.Repositories
             // Arrange
             using (PeopleSearchDbContext testContext = GetTestContext())
             {
-                IList<Person> expected = new List<Person>();
+                List<Person> expected = new List<Person>();
 
                 testContext.People.Add(TestData.TestPerson1());
                 testContext.People.Add(TestData.TestPerson2());
@@ -258,7 +258,7 @@ namespace PeopleSearch.Test.DataAccess.Repositories
                 PersonRepository repository = new PersonRepository(testContext);
 
                 // Act
-                IList<Person> actual = await repository.SearchPeopleAsync("zzz");
+                List<Person> actual = (await repository.SearchPeopleAsync("zzz")).ToList();
 
                 // Assert
                 ModelComparisonHelper.AssertPersonListsAreEqual(expected, actual);
@@ -405,7 +405,7 @@ namespace PeopleSearch.Test.DataAccess.Repositories
             using (PeopleSearchDbContext testContext = GetTestContext())
             {
                 Person added = TestData.TestPerson1();
-                IList<Person> expected = new List<Person> { added };
+                List<Person> expected = new List<Person> { added };
 
 
                 PersonRepository repository = new PersonRepository(testContext);
@@ -414,7 +414,7 @@ namespace PeopleSearch.Test.DataAccess.Repositories
                 await repository.AddPersonAsync(added);
 
                 // Assert
-                IList<Person> actual = await testContext.People.ToListAsync();
+                List<Person> actual = await testContext.People.ToListAsync();
                 ModelComparisonHelper.AssertPersonListsAreEqual(expected, actual);
             }
         }
@@ -426,7 +426,7 @@ namespace PeopleSearch.Test.DataAccess.Repositories
             using (PeopleSearchDbContext testContext = GetTestContext())
             {
                 Person added = TestData.TestPerson1();
-                IList<Person> expected = new List<Person> { added };
+                List<Person> expected = new List<Person> { added };
 
                 testContext.People.Add(added);
                 await testContext.SaveChangesAsync();
@@ -437,7 +437,7 @@ namespace PeopleSearch.Test.DataAccess.Repositories
                 await repository.AddPersonAsync(added);
 
                 // Assert
-                IList<Person> actual = await testContext.People.ToListAsync();
+                List<Person> actual = await testContext.People.ToListAsync();
                 ModelComparisonHelper.AssertPersonListsAreEqual(expected, actual);
             }
         }
@@ -491,7 +491,7 @@ namespace PeopleSearch.Test.DataAccess.Repositories
             using (PeopleSearchDbContext testContext = GetTestContext())
             {
                 Person added = TestData.TestPerson1();
-                IList<Person> expected = new List<Person> { added };
+                List<Person> expected = new List<Person> { added };
 
                 PersonRepository repository = new PersonRepository(testContext);
 
@@ -499,7 +499,7 @@ namespace PeopleSearch.Test.DataAccess.Repositories
                 await repository.AddOrUpdatePerson(added);
 
                 // Assert
-                IList<Person> actual = await testContext.People.ToListAsync();
+                List<Person> actual = await testContext.People.ToListAsync();
                 ModelComparisonHelper.AssertPersonListsAreEqual(expected, actual);
             }
         }
@@ -512,7 +512,7 @@ namespace PeopleSearch.Test.DataAccess.Repositories
             {
                 Person added = TestData.TestPerson1();
                 Person modified = TestData.TestPerson1();
-                IList<Person> expected = new List<Person> { modified };
+                List<Person> expected = new List<Person> { modified };
 
                 testContext.People.Add(added);
                 await testContext.SaveChangesAsync();
@@ -527,7 +527,7 @@ namespace PeopleSearch.Test.DataAccess.Repositories
                 await repository.AddOrUpdatePerson(added);
 
                 // Assert
-                IList<Person> actual = await testContext.People.ToListAsync();
+                List<Person> actual = await testContext.People.ToListAsync();
                 ModelComparisonHelper.AssertPersonListsAreEqual(expected, actual);
             }
         }
@@ -540,7 +540,7 @@ namespace PeopleSearch.Test.DataAccess.Repositories
             {
                 Person added = TestData.TestPerson1();
                 Person modified = TestData.TestPerson1();
-                IList<Person> expected = new List<Person> { modified };
+                List<Person> expected = new List<Person> { modified };
 
                 testContext.People.Add(added);
                 await testContext.SaveChangesAsync();
@@ -561,7 +561,7 @@ namespace PeopleSearch.Test.DataAccess.Repositories
                 await repository.AddOrUpdatePerson(added);
 
                 // Assert
-                IList<Person> actual = await testContext.People.ToListAsync();
+                List<Person> actual = await testContext.People.ToListAsync();
                 ModelComparisonHelper.AssertPersonListsAreEqual(expected, actual);
             }
         }
@@ -574,7 +574,7 @@ namespace PeopleSearch.Test.DataAccess.Repositories
             {
                 Person added = TestData.TestPerson1();
                 Person modified = TestData.TestPerson1();
-                IList<Person> expected = new List<Person> { modified };
+                List<Person> expected = new List<Person> { modified };
 
                 testContext.People.Add(added);
                 await testContext.SaveChangesAsync();
@@ -589,7 +589,7 @@ namespace PeopleSearch.Test.DataAccess.Repositories
                 await repository.AddOrUpdatePerson(added);
 
                 // Assert
-                IList<Person> actual = await testContext.People.ToListAsync();
+                List<Person> actual = await testContext.People.ToListAsync();
                 ModelComparisonHelper.AssertPersonListsAreEqual(expected, actual);
             }
         }
@@ -602,7 +602,7 @@ namespace PeopleSearch.Test.DataAccess.Repositories
             {
                 Person added = TestData.TestPerson1();
                 Person modified = TestData.TestPerson1();
-                IList<Person> expected = new List<Person> { modified };
+                List<Person> expected = new List<Person> { modified };
 
                 testContext.People.Add(added);
                 await testContext.SaveChangesAsync();
@@ -625,7 +625,7 @@ namespace PeopleSearch.Test.DataAccess.Repositories
                 await repository.AddOrUpdatePerson(added);
 
                 // Assert
-                IList<Person> actual = await testContext.People.ToListAsync();
+                List<Person> actual = await testContext.People.ToListAsync();
                 ModelComparisonHelper.AssertPersonListsAreEqual(expected, actual);
             }
         }
@@ -642,7 +642,7 @@ namespace PeopleSearch.Test.DataAccess.Repositories
             {
                 Person person1 = TestData.TestPerson1();
                 Person person2 = TestData.TestPerson2();
-                IList<Person> expected = new List<Person> { person1 };
+                List<Person> expected = new List<Person> { person1 };
 
                 testContext.People.Add(person1);
                 await testContext.SaveChangesAsync();
@@ -653,7 +653,7 @@ namespace PeopleSearch.Test.DataAccess.Repositories
                 await repository.DeletePersonAsync(person2.Id);
 
                 // Assert
-                IList<Person> actual = await testContext.People.ToListAsync();
+                List<Person> actual = await testContext.People.ToListAsync();
                 ModelComparisonHelper.AssertPersonListsAreEqual(expected, actual);
             }
         }
@@ -665,7 +665,7 @@ namespace PeopleSearch.Test.DataAccess.Repositories
             using (PeopleSearchDbContext testContext = GetTestContext())
             {
                 Person added = TestData.TestPerson1();
-                IList<Person> expected = new List<Person>();
+                List<Person> expected = new List<Person>();
 
                 testContext.People.Add(added);
                 await testContext.SaveChangesAsync();
@@ -677,7 +677,7 @@ namespace PeopleSearch.Test.DataAccess.Repositories
                 await repository.DeletePersonAsync(added.Id);
 
                 // Assert
-                IList<Person> actual = await testContext.People.ToListAsync();
+                List<Person> actual = await testContext.People.ToListAsync();
                 ModelComparisonHelper.AssertPersonListsAreEqual(expected, actual);
             }
         }

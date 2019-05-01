@@ -10,6 +10,11 @@
     <None Remove="src\app\address.ts" />
     <None Remove="src\app\image.ts" />
     <None Remove="src\app\interest.ts" />
+    <None Remove="src\app\services\person.service.spec.ts" />
+    <None Remove="src\app\testing\array-helper.ts" />
+    <None Remove="src\app\testing\async-observable-helper.ts" />
+    <None Remove="src\app\testing\file.ts" />
+    <None Remove="src\app\testing\string-generation-helper.ts" />
   </ItemGroup>
 
   <ItemGroup>
@@ -30,6 +35,10 @@
     <TypeScriptCompile Include="src\app\models\address.ts" />
     <TypeScriptCompile Include="src\app\models\image.ts" />
     <TypeScriptCompile Include="src\app\models\interest.ts" />
+    <TypeScriptCompile Include="src\app\services\person.service.spec.ts" />
+    <TypeScriptCompile Include="src\app\testing\array-helper.ts" />
+    <TypeScriptCompile Include="src\app\testing\async-observable-helper.ts" />
+    <TypeScriptCompile Include="src\app\testing\string-generation-helper.ts" />
   </ItemGroup>
 
   <ItemGroup>

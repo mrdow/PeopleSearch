@@ -43,12 +43,12 @@ export class PersonService {
         return people;
       }))
       .pipe(
-        catchError(this.handleError('searchPeople', []))
+        catchError(this.handleError(`searchPeople searchString=${searchString}`, []))
       );
   }
 
   /**
-   * GET a person by id. Will be 404 if not found
+   * GET a person by id
    * @param id - the id of the person
    */
   getPerson(id: number): Observable<Person> {
@@ -57,19 +57,6 @@ export class PersonService {
     return this.http.get<Person>(url)
       .pipe(map(response => new Person(response)))
       .pipe(
-        catchError(this.handleError<Person>(`getPerson id=${id}`))
-      );
-  }
-
-  /**
-   * GET a person by id. Return `undefined` when id not found
-   * @param id - the id of the person
-   */
-  getPersonNo404<Data>(id: number): Observable<Person> {
-    const url = `${this.peopleUrl}/?id=${id}`;
-    return this.http.get<Person[]>(url)
-      .pipe(
-        map(people => people[0]), // returns a {0|1} element array
         catchError(this.handleError<Person>(`getPerson id=${id}`))
       );
   }
@@ -108,7 +95,7 @@ export class PersonService {
 
     return this.http.delete<Person>(url, httpOptions)
       .pipe(
-        catchError(this.handleError<Person>('deletePerson'))
+      catchError(this.handleError<Person>(`deletePerson id=${id}`))
       );
   }
 
@@ -120,6 +107,7 @@ export class PersonService {
    */
   private handleError<T>(operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {
+      console.error(operation);
       console.error(error);
 
       return of(result as T);

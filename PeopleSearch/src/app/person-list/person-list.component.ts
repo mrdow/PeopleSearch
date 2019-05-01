@@ -11,9 +11,17 @@ import { Person } from '../models/person';
 export class PersonListComponent {
   @Input() people: Person[]
   @Input() isLoading: boolean;
-  @Output() onListChanged = new EventEmitter<any>();
+  @Output() listChanged = new EventEmitter<any>();
 
   faSpinner = faSpinner;
 
   constructor() { }
+
+  onDeleted(person: Person) {
+    const personIndex = this.people.indexOf(person, 0);
+    if (personIndex > -1) {
+      this.people.splice(personIndex, 1);
+    }
+    this.listChanged.emit();
+  }
 }

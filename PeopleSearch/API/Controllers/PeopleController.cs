@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using PeopleSearch.API.DataAccess.Repositories.Interfaces;
@@ -33,9 +34,9 @@ namespace PeopleSearch.API.Controllers
         [HttpGet]
         [Route("")]
         [Route("searchString")]
-        public async Task<ActionResult<IList<Person>>> GetAsync(string searchString = null)
+        public async Task<ActionResult<IEnumerable<Person>>> GetAsync(string searchString = null)
         {
-            return Ok(await _personRepository.SearchPeopleAsync(searchString));
+            return (await _personRepository.SearchPeopleAsync(searchString)).ToList();
         }
 
         /// <summary>
@@ -50,7 +51,7 @@ namespace PeopleSearch.API.Controllers
             var result = await _personRepository.GetByIdAsync(id);
             if (result != null)
             {
-                return Ok(result);
+                return result;
             }
 
             return NotFound();
@@ -64,7 +65,7 @@ namespace PeopleSearch.API.Controllers
         [HttpPut]
         public async Task<ActionResult<Person>> PutAsync(Person person)
         {
-            return Ok(await _personRepository.AddOrUpdatePerson(person));
+            return await _personRepository.AddOrUpdatePerson(person);
         }
 
         /// <summary>
@@ -75,7 +76,7 @@ namespace PeopleSearch.API.Controllers
         [HttpPost]
         public async Task<ActionResult<Person>> PostAsync(Person person)
         {
-            return Ok(await _personRepository.AddPersonAsync(person));
+            return await _personRepository.AddPersonAsync(person);
         }
 
         /// <summary>

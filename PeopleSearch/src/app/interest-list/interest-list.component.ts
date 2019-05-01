@@ -11,15 +11,18 @@ import { Interest } from '../models/interest';
 export class InterestListComponent {
   @Input() interestForms: FormArray;
 
-  get filteredInterests(): Interest[] {
-    return this.interestForms.value.filter(i => !i.isDeleted);
-  }
-
   constructor(private formBuilder: FormBuilder) { }
 
+  get filteredInterests(): Interest[] {
+    return this.interestForms && this.interestForms.value ? this.interestForms.value.filter(i => !i.isDeleted) : [];
+  }
+
   delete(interest: Interest): void {
-    var currentInterests = this.interestForms.value;
-    currentInterests.find(i => i.id === interest.id).isDeleted = true;
+    var currentInterests = this.interestForms ? this.interestForms.value : [];
+    const interestToDelete = currentInterests.find(i => i.id === interest.id);
+    if (interestToDelete) {
+      interestToDelete.isDeleted = true;
+    }
     this.interestForms = this.formBuilder.array(currentInterests);
   }
 }

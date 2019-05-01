@@ -29,7 +29,7 @@ namespace PeopleSearch.API.DataAccess.Repositories
         /// Gets a list of all Person objects.
         /// </summary>
         /// <returns>A list of Person objects.</returns>
-        public async Task<IList<Person>> AllPeopleAsync()
+        public async Task<IEnumerable<Person>> AllPeopleAsync()
         {
             return await _context
                 .People
@@ -45,7 +45,7 @@ namespace PeopleSearch.API.DataAccess.Repositories
         /// </summary>
         /// <param name="searchString">The string to search for anywhere within each Person's FirstName and LastName.</param>
         /// <returns>A list of Person objects identified by the searchString.</returns>
-        public async Task<IList<Person>> SearchPeopleAsync(string searchString)
+        public async Task<IEnumerable<Person>> SearchPeopleAsync(string searchString)
         {
             if (string.IsNullOrEmpty(searchString))
             {

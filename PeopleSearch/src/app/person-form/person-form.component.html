@@ -1,9 +1,9 @@
-<form *ngIf="personForm" [formGroup]="personForm" (ngSubmit)="save()" class="container overflow-hidden">
+<form *ngIf="personForm" [formGroup]="personForm" id="person-form" (ngSubmit)="save()" class="container overflow-hidden">
   <h1>{{(!personForm.get('firstName').value && !personForm.get('lastName').value) ? 'New Person' : personForm.get('firstName').value + ' ' + personForm.get('lastName').value}}</h1>
 
   <div class="form-group">
     <div class="image-container col-sm-4">
-      <img *ngIf="safeUrl" class="img-fluid img-thumbnail" id="image" [src]="safeUrl">
+      <img id="image" *ngIf="safeUrl" class="img-fluid img-thumbnail" [src]="safeUrl">
     </div>
     <div class="input-group mb-3">
       <div class="input-group-prepend">
@@ -19,14 +19,14 @@
   <div class="form-group row">
     <label for="firstName" class="col-sm-2 col-form-label">First name</label>
     <div class="col-sm-10">
-      <input formControlName="firstName" type="text" class="form-control" required maxlength="50">
+      <input formControlName="firstName" id="first-name" type="text" class="form-control" required maxlength="50">
 
-      <div *ngIf="firstName.invalid && !firstName.pristine"
+      <div *ngIf="firstName.invalid"
            class="alert alert-danger">
-        <div *ngIf="firstName.errors.required">
+        <div *ngIf="firstName.errors.required" id="first-name-error-required">
           First name is required.
         </div>
-        <div *ngIf="firstName.errors.maxLength">
+        <div *ngIf="firstName.errors.maxlength" id="first-name-error-maxlength">
           First name must be no more than 50 characters long.
         </div>
       </div>
@@ -37,14 +37,14 @@
   <div class="form-group row">
     <label for="lastName" class="col-sm-2 col-form-label">Last name</label>
     <div class="col-sm-10">
-      <input formControlName="lastName" type="text" class="form-control" required maxlength="50">
+      <input formControlName="lastName" id="last-name" type="text" class="form-control" required maxlength="50">
 
-      <div *ngIf="lastName.invalid && !lastName.pristine"
+      <div *ngIf="lastName.invalid"
            class="alert alert-danger">
-        <div *ngIf="lastName.errors.required">
+        <div *ngIf="lastName.errors.required" id="last-name-error-required">
           Last name is required.
         </div>
-        <div *ngIf="lastName.errors.maxLength">
+        <div *ngIf="lastName.errors.maxlength" id="last-name-error-maxlength">
           Last name must be no more than 50 characters long.
         </div>
       </div>
@@ -55,11 +55,11 @@
   <div class="form-group row">
     <label for="birthDate" class="col-sm-2 col-form-label">Birth date</label>
     <div class="col-sm-10">
-      <input formControlName="birthDate" type="date" class="form-control date-picker" [value]="personForm.get('birthDate').value | date:'yyyy-MM-dd'" required>
+      <input formControlName="birthDate" id="birth-date" type="date" min="1/1/1753" class="form-control date-picker" value="{{ birthDate.value || '' }}" required>
 
-      <div *ngIf="birthDate.invalid && !birthDate.pristine"
+      <div *ngIf="birthDate.invalid"
            class="alert alert-danger">
-        <div *ngIf="birthDate.errors.required">
+        <div *ngIf="birthDate.errors.required" id="birth-date-error-required">
           Birth date is required.
         </div>
       </div>
@@ -70,10 +70,10 @@
   <div class="form-group row">
     <label class="col-sm-2 col-form-label" for="deathDate">Death date</label>
     <div class="col-sm-10">
-      <input formControlName="deathDate" type="date" class="form-control date-picker" [value]="personForm.get('deathDate').value | date:'yyyy-MM-dd'">
+      <input formControlName="deathDate" id="death-date" type="date" min="1/1/1753" class="form-control" value="{{ deathDate.value || '' }}">
 
-      <div *ngIf="personForm.invalid && !personForm.pristine && personForm.errors.deathDate"
-           class="alert alert-danger">
+      <div *ngIf="personForm.invalid && personForm.errors && personForm.errors.deathDate"
+           id="death-date-error-invalid" class="alert alert-danger">
         <div>
           Death date must be later than birth date.
         </div>
@@ -97,6 +97,4 @@
     </button>
     <button class="btn btn-outline-secondary" title="go back" (click)="goBack()">{{(isNew ? 'Cancel' : 'Go Back')}}</button>
   </div>
-
-  {{errors}}
 </form>

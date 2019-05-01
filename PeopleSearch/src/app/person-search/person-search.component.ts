@@ -18,7 +18,7 @@ export class PersonSearchComponent implements OnInit {
   @Output() searchComplete = new EventEmitter<Person[]>();
   @Output() searchBegin = new EventEmitter();
 
-  searchText: string;
+  searchText: string = '';
 
   private searchTerms = new Subject<string>();
 

@@ -11,10 +11,18 @@ export class Person {
   image: Image;
   firstName: string = '';
   lastName: string = '';
-  birthDate: Date;
+  birthDate: Date = new Date(Date.now());
   deathDate: Date;
   address: Address = new Address();
   interests: Interest[] = [];
+
+  get age(): number {
+    var endDate = this.deathDateAsDate() || new Date(Date.now());
+    var startDate = this.birthDateAsDate();
+    var ageDifMs = endDate.getTime() - startDate.getTime();
+    var ageDate = new Date(ageDifMs); // miliseconds from epoch
+    return Math.abs(ageDate.getUTCFullYear() - 1970);
+  }
 
   birthDateAsDate(): Date {
     return new Date(this.birthDate);

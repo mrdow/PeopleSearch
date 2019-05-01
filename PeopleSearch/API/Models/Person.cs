@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Runtime.Serialization;
 
 namespace PeopleSearch.API.Models
 {
@@ -57,12 +58,13 @@ namespace PeopleSearch.API.Models
         /// The person's age derived from either the current date or their death date.
         /// </summary>
         [NotMapped]
+        [IgnoreDataMember]
         public TimeSpan Age => (DeathDate ?? DateTime.Now) - BirthDate;
 
         /// <summary>
         /// A list of the person's interests.
         /// </summary>
-        public IList<Interest> Interests { get; set; }
+        public List<Interest> Interests { get; set; }
 
         /// <summary>
         /// The person's image.

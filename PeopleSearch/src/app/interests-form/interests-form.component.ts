@@ -26,7 +26,11 @@ export class InterestsFormComponent implements OnInit {
   initializeForm(): any {
     this.clearForm();
 
-    this.interestForms = this.formBuilder.array(this.interests.map(i => this.interestToFormGroup(i)));
+    if (this.interests) {
+      this.interestForms = this.formBuilder.array(this.interests.map(i => this.interestToFormGroup(i)));
+    } else {
+      this.interestForms = this.formBuilder.array([]);
+    }
 
     if (this.nestableForm) {
       this.nestableForm.addControl('interests', this.interestForms);
@@ -42,7 +46,7 @@ export class InterestsFormComponent implements OnInit {
       id: [interest.id],
       name: [interest.name, Validators.compose([Validators.required, Validators.maxLength(200)])],
       isDeleted: [interest.isDeleted]
-    })
+    });
   }
 
   add() {

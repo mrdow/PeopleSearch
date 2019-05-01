@@ -25,6 +25,12 @@ export class AddressFormComponent implements OnInit {
     this.initializeForm();
   }
 
+  get address1() { return this.addressForm.get('address1'); }
+  get address2() { return this.addressForm.get('address2'); }
+  get city() { return this.addressForm.get('city'); }
+  get state() { return this.addressForm.get('state'); }
+  get zip() { return this.addressForm.get('zip'); }
+
   initializeForm(): any {
     this.addressForm = this.formBuilder.group({
       id: [this.address.id],
@@ -41,12 +47,6 @@ export class AddressFormComponent implements OnInit {
   }
 
   stateCodeKeys(): string[] {
-    return Object.keys(StateCodes);
+    return Object.keys(StateCodes).filter(key => !isNaN(Number(StateCodes[key])));
   }
-
-  get address1() { return this.addressForm.get('address1'); }
-  get address2() { return this.addressForm.get('address2'); }
-  get city() { return this.addressForm.get('city'); }
-  get state() { return this.addressForm.get('state'); }
-  get zip() { return this.addressForm.get('zip'); }
 }

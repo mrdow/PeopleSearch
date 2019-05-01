@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
+import { SafeUrl } from '@angular/platform-browser';
 
 import { PersonService } from '../services/person.service';
 import { StateCodes } from '../models/address';
@@ -13,14 +13,13 @@ import { ImageService } from '../services/image.service';
 })
 export class PersonCardComponent implements OnInit {
   @Input() person: Person;
-  @Output() onDeleted = new EventEmitter<Person>();
+  @Output() deleted = new EventEmitter<Person>();
 
   stateCodes = StateCodes;
 
   safeUrl: SafeUrl;
 
   constructor(
-    private sanitizer: DomSanitizer,
     private personService: PersonService,
     private imageService: ImageService
   ) { }
@@ -31,20 +30,12 @@ export class PersonCardComponent implements OnInit {
     }
   }
 
-  getAge() {
-    var endDate = this.person.deathDateAsDate() || new Date(Date.now());
-    var startDate = this.person.birthDateAsDate();
-    var ageDifMs = endDate.getTime() - startDate.getTime();
-    var ageDate = new Date(ageDifMs); // miliseconds from epoch
-    return Math.abs(ageDate.getUTCFullYear() - 1970);
-  }
-
   stateCodeKeys(): string[] {
     return Object.keys(StateCodes);
   }
 
   delete(): void {
     this.personService.deletePerson(this.person).subscribe();
-    this.onDeleted.emit(this.person);
+    this.deleted.emit(this.person);
   }
 }

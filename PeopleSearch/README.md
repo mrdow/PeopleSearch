@@ -32,3 +32,18 @@ There are no special instructions for developing the API. You will need to rebui
 Running the application using Run (F5) in Visual Studio after making changes in the Angular code will not automatically rebuild the Angular project. This is because Visual Studio will not rebuild if it hasn't detected changes in the C# code. To iteratively develop the Angular portion of the application using the basic Run (F5) command in Visual Studio it is recommended to manually rebuild the project before running.
 
 An easier approach to iteratively developing the Angular portion of the application is to first build and run the project using Visual Studio's Run (F5) command, then open a command prompt to the project root directory and run `ng build --aot --watch` to actively rebuild the Angular code on save. After making changes to and saving a file in the Angular portion of the application, you can simply reload the page in your browser to test your changes.
+
+
+# Running Unit Tests
+
+## Running the API Tests
+
+The API tests can be run with the Visual Studio Test Explorer once the project has been built.
+
+## Running the UI Tests
+
+The UI tests must be run from the command line. Open a prompt to the project root and run any of the following commands.
+* `ng test` - Builds the Angular app in watch mode and runs the Karma test runner to view the test results in a new browser window.
+* `ng test --no-watch` - Builds the Angular app once and runs the Karma test runner to view the test results in a new browser window.
+* `ng test --code-coverage` Builds the Angular app in watch mode and runs the Karma test runner to view the test results in a new browser window. Creates a new /coverage folder at the root of the project. Open the index.html file to see a report of the project's code coverage.
+* `ng test --no-watch --code-coverage` Builds the Angular app once and runs the Karma test runner to view the test results in a new browser window. Creates a new /coverage folder at the root of the project. Open the index.html file to see a report of the project's code coverage.

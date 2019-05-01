@@ -10,7 +10,7 @@ namespace PeopleSearch.Test.Helpers
     {
         #region Helper Methods
 
-        public static void AssertPersonListsAreEqual(IList<Person> expected, IList<Person> actual)
+        public static void AssertPersonListsAreEqual(List<Person> expected, List<Person> actual)
         {
             if (expected == null)
             {
@@ -91,7 +91,7 @@ namespace PeopleSearch.Test.Helpers
             Assert.AreEqual(expected.Zip, actual.Zip, $"Expected {nameof(expected.Zip)} to be {expected.Zip}");
         }
 
-        private static void AssertInterestListsAreEqual(IList<Interest> expected, IList<Interest> actual)
+        private static void AssertInterestListsAreEqual(List<Interest> expected, List<Interest> actual)
         {
             if (expected == null)
             {

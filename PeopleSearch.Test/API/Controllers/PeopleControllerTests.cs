@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
@@ -21,7 +22,7 @@ namespace PeopleSearch.Test.API.Controllers
         public async Task GetAsync_GivenNullSearchString_ShouldCallRepositoryCorrectly()
         {
             // Arrange
-            IList<Person> matching = new List<Person>();
+            List<Person> matching = new List<Person>();
             string expected = null;
 
             Mock<IPersonRepository> mockPersonRepository = new Mock<IPersonRepository>(MockBehavior.Strict);
@@ -40,7 +41,7 @@ namespace PeopleSearch.Test.API.Controllers
         public async Task GetAsync_GivenEmptySearchString_ShouldCallRepositoryCorrectly()
         {
             // Arrange
-            IList<Person> matching = new List<Person>();
+            List<Person> matching = new List<Person>();
             string expected = string.Empty;
 
             Mock<IPersonRepository> mockPersonRepository = new Mock<IPersonRepository>(MockBehavior.Strict);
@@ -59,7 +60,7 @@ namespace PeopleSearch.Test.API.Controllers
         public async Task GetAsync_GivenWhitespaceSearchString_ShouldCallRepositoryCorrectly()
         {
             // Arrange
-            IList<Person> matching = new List<Person>();
+            List<Person> matching = new List<Person>();
             string expected = " ";
 
             Mock<IPersonRepository> mockPersonRepository = new Mock<IPersonRepository>(MockBehavior.Strict);
@@ -78,8 +79,8 @@ namespace PeopleSearch.Test.API.Controllers
         public async Task GetAsync_GivenNoPeopleExist_ShouldReturnEmptyList()
         {
             // Arrange
-            IList<Person> matching = new List<Person>();
-            IList<Person> expected = new List<Person>();
+            List<Person> matching = new List<Person>();
+            List<Person> expected = new List<Person>();
 
             Mock<IPersonRepository> mockPersonRepository = new Mock<IPersonRepository>(MockBehavior.Loose);
             mockPersonRepository.Setup(r => r.SearchPeopleAsync(It.IsAny<string>())).ReturnsAsync(matching);
@@ -87,7 +88,7 @@ namespace PeopleSearch.Test.API.Controllers
             PeopleController controller = new PeopleController(mockPersonRepository.Object);
 
             // Act
-            IList<Person> actual = (await controller.GetAsync(null)).Value;
+            List<Person> actual = (await controller.GetAsync(null)).Value.ToList();
 
             // Assert
             ModelComparisonHelper.AssertPersonListsAreEqual(expected, actual);
@@ -98,8 +99,8 @@ namespace PeopleSearch.Test.API.Controllers
         {
             // Arrange
             Person person = TestData.TestPerson1();
-            IList<Person> matching = new List<Person> { person };
-            IList<Person> expected = new List<Person> { person };
+            List<Person> matching = new List<Person> { person };
+            List<Person> expected = new List<Person> { person };
 
             Mock<IPersonRepository> mockPersonRepository = new Mock<IPersonRepository>(MockBehavior.Loose);
             mockPersonRepository.Setup(r => r.SearchPeopleAsync(It.IsAny<string>())).ReturnsAsync(matching);
@@ -109,7 +110,7 @@ namespace PeopleSearch.Test.API.Controllers
             PeopleController controller = new PeopleController(mockPersonRepository.Object);
 
             // Act
-            IList<Person> actual = (await controller.GetAsync(null)).Value;
+            List<Person> actual = (await controller.GetAsync(null)).Value.ToList();
 
             // Assert
             ModelComparisonHelper.AssertPersonListsAreEqual(expected, actual);
@@ -119,8 +120,8 @@ namespace PeopleSearch.Test.API.Controllers
         public async Task GetAsync_GivenNonMatchingSearchString_ShouldReturnEmptyList()
         {
             // Arrange
-            IList<Person> matching = new List<Person>();
-            IList<Person> expected = new List<Person>();
+            List<Person> matching = new List<Person>();
+            List<Person> expected = new List<Person>();
 
             Mock<IPersonRepository> mockPersonRepository = new Mock<IPersonRepository>(MockBehavior.Loose);
             mockPersonRepository.Setup(r => r.SearchPeopleAsync(It.IsAny<string>())).ReturnsAsync(matching);
@@ -130,7 +131,7 @@ namespace PeopleSearch.Test.API.Controllers
             PeopleController controller = new PeopleController(mockPersonRepository.Object);
 
             // Act
-            IList<Person> actual = (await controller.GetAsync("someString")).Value;
+            List<Person> actual = (await controller.GetAsync("someString")).Value.ToList();
 
             // Assert
             ModelComparisonHelper.AssertPersonListsAreEqual(expected, actual);
@@ -142,8 +143,8 @@ namespace PeopleSearch.Test.API.Controllers
             // Arrange
             Person person1 = TestData.TestPerson1();
             Person person2 = TestData.TestPerson2();
-            IList<Person> matching = new List<Person> { person1, person2 };
-            IList<Person> expected = new List<Person> { person1, person2 };
+            List<Person> matching = new List<Person> { person1, person2 };
+            List<Person> expected = new List<Person> { person1, person2 };
 
             Mock<IPersonRepository> mockPersonRepository = new Mock<IPersonRepository>(MockBehavior.Loose);
             mockPersonRepository.Setup(r => r.SearchPeopleAsync(It.IsAny<string>())).ReturnsAsync(matching);
@@ -153,7 +154,7 @@ namespace PeopleSearch.Test.API.Controllers
             PeopleController controller = new PeopleController(mockPersonRepository.Object);
 
             // Act
-            IList<Person> actual = (await controller.GetAsync("someString")).Value;
+            IList<Person> actual = (await controller.GetAsync("someString")).Value.ToList();
 
             // Assert
             ModelComparisonHelper.AssertPersonListsAreEqual(expected, actual);
