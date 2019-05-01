@@ -7,6 +7,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PeopleSearch", "PeopleSearc
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PeopleSearch.Test", "PeopleSearch.Test\PeopleSearch.Test.csproj", "{0598FD57-B728-4EB7-AAA0-90F0D23C58ED}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Environment Setup", "Environment Setup", "{345F7BCF-1C39-4E15-8EEC-B0105F2B27D4}"
+	ProjectSection(SolutionItems) = preProject
+		PeopleSearch\SetupEnvironment.cmd = PeopleSearch\SetupEnvironment.cmd
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

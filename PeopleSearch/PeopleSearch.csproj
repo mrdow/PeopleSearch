@@ -62,17 +62,12 @@
     </Exec>
     <Error Condition="'$(ErrorCode)' != '0'" Text="Angular CLI failed to install but is required to build this project. To continue, please install Angular CLI from https://cli.angular.io/." />
   </Target>
+  <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
+    <Exec Command="ng build --aot" />
+  </Target>
   <Target Name="ReleaseRunNgBuild" BeforeTargets="Build">
     <CallTarget Targets="EnsureNode" />
     <CallTarget Targets="EnsureAngularCli" />
-    <Message Importance="high" Text="Restoring nuget packages..." />
-    <Exec Command="dotnet restore" />
-    <Message Importance="high" Text="Installing npm packages..." />
-    <Exec Command="npm install" />
-    <Message Importance="high" Text="Rebuilding node-sass binding..." />
-    <Exec Command="npm rebuild node-sass" />
-    <Message Importance="high" Text="Performing ng build..." />
-    <Exec Command="npm run-script build-ahead" />
   </Target>
 
 </Project>
